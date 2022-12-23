@@ -3,7 +3,7 @@ echo ----- stage: create exec-start-dos-test.sh ------
 cat exec-start-template.sh > exec-start-dos-test.sh
 echo "export BUILD_DEPENDENCY_BENCHER_DIR=$BUILD_DEPENDENCY_BENCHER_DIR" >> exec-start-dos-test.sh
 echo "export BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR=$BUILD_DEPENDENCY_BENCHER_DIR/deps" >> exec-start-dos-test.sh
-echo "export BUILD_DEPENDENCY_CONFIGUERE_DIR=$BUILD_DEPENDENCY_CONFIGUERE_DIR"
+echo "export BUILD_DEPENDENCY_CONFIGUERE_DIR=$BUILD_DEPENDENCY_CONFIGUERE_DIR" >> exec-start-dos-test.sh
 echo "export ENDPOINT=$ENDPOINT" >> exec-start-dos-test.sh
 echo "export DURATION=$DURATION" >> exec-start-dos-test.sh
 echo "export QOUTES_PER_SECOND=$QOUTES_PER_SECOND" >> exec-start-dos-test.sh
