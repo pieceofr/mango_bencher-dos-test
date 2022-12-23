@@ -102,7 +102,7 @@ do
 done
 
 sleep $DURATION
-sleep 1
+sleep 60
 source generate-exec-upload-logs.sh
 for sship in "${instance_ip[@]}"
 do
