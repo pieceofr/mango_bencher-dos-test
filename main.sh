@@ -83,7 +83,7 @@ echo ----- stage: prepare files to run the mango_bencher in the clients ---
 # setup Envs here so that generate-exec-files.sh can be used individually
 source generate-exec-dependency.sh
 accounts=( $ACCOUNTS )
-ACCOUNT_FILE=accounts[1]
+ACCOUNT_FILE=$accounts[1]
 #Generate first dos-test machine
 source generate-exec-dos-test.sh 
 echo ----- stage: create 1st machine  ---
