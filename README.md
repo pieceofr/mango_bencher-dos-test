@@ -1,5 +1,5 @@
-# mango_bencher-dos
-    Purpose of mango_bencher-dos is to use mango_bencher to do DOS test in Testnet
+# mango_bencher-dos-test
+    Purpose of mango_bencher-dos-test is to use mango_bencher to do DOS test in Testnet
 ## Files
 
 + main.go : main procedure

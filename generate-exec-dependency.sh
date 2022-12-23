@@ -1,10 +1,10 @@
 # add git repo to exe-start-template
 echo "git clone $GIT_REPO.git" >> exec-start-template.sh
-echo "cd mango_bencher-dos" >> exec-start-template.sh
+echo "cd mango_bencher-dos-test" >> exec-start-template.sh
 echo "git checkout $BUILDKITE_BRANCH" >> exec-start-template.sh
 echo "cd ~" >> exec-start-template.sh
-echo 'cp ~/mango_bencher-dos/start-build-dependency.sh .' >> exec-start-template.sh
-echo 'cp ~/mango_bencher-dos/start-dos-test.sh .' >> exec-start-template.sh
+echo 'cp ~/mango_bencher-dos-test/start-build-dependency.sh .' >> exec-start-template.sh
+echo 'cp ~/mango_bencher-dos-test/start-dos-test.sh .' >> exec-start-template.sh
 echo "export SOLANA_METRICS_CONFIG=\"$SOLANA_METRICS_CONFIG\"" >> exec-start-template.sh
 
 # add information to exec-start-build-dependency.sh
