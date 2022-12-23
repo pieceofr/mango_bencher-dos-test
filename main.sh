@@ -102,7 +102,7 @@ do
 done
 
 sleep $DURATION
-sleep 60
+sleep 60 #delay for log ready
 source generate-exec-upload-logs.sh
 for sship in "${instance_ip[@]}"
 do
