@@ -1,5 +1,5 @@
 # add git repo to exe-start-template
-echo "git clone $GIT_REPO.git" >> exec-start-template.sh
+echo "git clone $GIT_REPO" >> exec-start-template.sh
 echo "cd mango_bencher-dos-test" >> exec-start-template.sh
 echo "git checkout $BUILDKITE_BRANCH" >> exec-start-template.sh
 echo "cd ~" >> exec-start-template.sh
