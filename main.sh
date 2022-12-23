@@ -83,7 +83,7 @@ echo ----- stage: prepare files to run the mango_bencher in the clients ---
 # setup Envs here so that generate-exec-files.sh can be used individually
 source generate-exec-dependency.sh
 accounts=( $ACCOUNTS )
-ACCOUNT_FILE=$accounts[0]
+ACCOUNT_FILE=$accounts[1]
 #Generate first dos-test machine
 source generate-exec-dos-test.sh 
 echo ----- stage: create 1st machine  ---
@@ -103,7 +103,7 @@ done
 
 sleep $DURATION
 sleep 1
-source generate-exec-upload-files.sh
+source generate-exec-upload-logs.sh
 for sship in "${instance_ip[@]}"
 do
     ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-upload-logs.sh)

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ex
+set -x
 source ~/.bashrc
 source ~/.profile
 cd ~
