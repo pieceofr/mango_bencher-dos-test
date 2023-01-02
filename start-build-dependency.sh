@@ -141,7 +141,7 @@ done
 cd $HOME 
 download_file dos-metrics-env.sh
 [[ ! -f "$HOME/dos-metrics-env.sh" ]]&&echo no dos-metrics-env.sh file && exit 1
-download dos-report-env.sh
+download_file dos-report-env.sh
 [[ ! -f "$HOME/dos-report-env.sh" ]]&&echo no dos-report-env.sh file && exit 1
 
 upload_file $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango
