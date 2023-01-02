@@ -2,9 +2,11 @@ echo ----- stage: create exec-start-dos-test-x.sh ------
 # add information to exec-start-dos-test.sh
 function gen_dos_test() {
     cat exec-start-template.sh > exec-start-dos-test-$1.sh
+    echo "export GIT_REPO=$GIT_REPO" >> exec-start-dos-test-$1.sh
+    echo "export BUILDKITE_BRANCH=$BUILDKITE_BRANCH" >> exec-start-dos-test-$1.sh
     echo "export SOLANA_REPO=$SOLANA_REPO" >> exec-start-dos-test-$1.sh
     echo "export SOLANA_GIT_COMMIT=$SOLANA_GIT_COMMIT" >> exec-start-dos-test-$1.sh
-    echo "export BUILDKITE_BRANCH=$BUILDKITE_BRANCH" >> exec-start-dos-test-$1.sh
+    echo "export SOLANA_BUILD_BRANCH=$SOLANA_BUILD_BRANCH" >> exec-start-dos-test-$1.sh
     echo "export MANGO_CONFIGURE_REPO=$MANGO_CONFIGURE_REPO" >> exec-start-dos-test-$1.sh
     echo "export MANGO_CONFIGURE_BRANCH=$MANGO_CONFIGURE_BRANCH" >> exec-start-dos-test-$1.sh
     echo "export BUILD_DEPENDENCY_CONFIGUERE_DIR=$BUILD_DEPENDENCY_CONFIGUERE_DIR" >> exec-start-dos-test-$1.sh
