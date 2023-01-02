@@ -96,19 +96,21 @@ do
     let acct_num=$acct_num+1
 done
 
-echo ----- stage: create 1st machine and build and upload solana-bench-mango ---
+echo ----- stage: machines and build and upload solana-bench-mango ---
 cd $dos_program_dir
 source create-instance.sh
-create_machines 1
+create_machines $NUM_CLIENT
 echo ----- stage: build dependency mango_bencher configure_mango for 1st machine------
+client_num=1
 for sship in "${instance_ip[@]}"
 do
-    ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-build-dependency.sh)
+    if client_num -eq 1;then
+        ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-build-dependency-build.sh)
+    else
+        ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-build-dependency-download.sh)
+    fi
 done
 
-echo ----- stage: create rest machines ---
-let  rest_of_machine=$NUM_CLIENT-1
-append_machines $rest_of_machine
 
 echo ----- stage: run dos test ---
 client_num=1
@@ -122,7 +124,7 @@ do
 done
 
 sleep $DURATION
-sleep 60 #delay for log ready
+sleep 120 #delay for log ready
 source generate-exec-upload-logs.sh
 for sship in "${instance_ip[@]}"
 do

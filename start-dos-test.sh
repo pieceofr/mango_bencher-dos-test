@@ -67,9 +67,9 @@ cd $HOME
 download_file solana-bench-mango
 chmod +x solana-bench-mango
 b_cluster_ep=$ENDPOINT
-b_auth_f="$BUILD_DEPENDENCY_CONFIGUERE_DIR/$AUTHORITY_FILE"
-b_acct_f="$BUILD_DEPENDENCY_BENCHER_DIR/$ACCOUNT_FILE"
-b_id_f="$BUILD_DEPENDENCY_CONFIGUERE_DIR/$ID_FILE"
+b_auth_f="$HOME/$AUTHORITY_FILE"
+b_acct_f="$HOME/$ACCOUNT_FILE"
+b_id_f="$HOME/$ID_FILE"
 b_mango_cluster=$CLUSTER
 b_duration=$DURATION
 b_q=$QOUTES_PER_SECOND

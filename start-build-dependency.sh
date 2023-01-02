@@ -19,6 +19,7 @@ set -ex
 
 # Printout Env
 [[ -f "env.output" ]]&& rm env.output
+echo BUILD_MANGO_BENCHER: $BUILD_MANGO_BENCHER >> env.output
 echo BUILD_DEPENDENCY_BENCHER_DIR: $BUILD_DEPENDENCY_BENCHER_DIR >> env.output
 echo BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR: $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR >> env.output
 echo BUILD_DEPENDENCY_CONFIGUERE_DIR: $BUILD_DEPENDENCY_CONFIGUERE_DIR >> env.output
@@ -35,6 +36,24 @@ echo ID_FILE: $ID_FILE >> env.output
 echo CHANNEL: $CHANNEL >> env.output
 echo RUST_VER: $RUST_VER >> env.output
 
+## Download key files from gsutil
+download_file() {
+	for retry in 0 1
+	do
+		if [[ $retry -gt 1 ]];then
+			break
+		fi
+		gsutil cp  gs://mango_bencher-dos/$1 ./
+		if [[ ! -f "$1" ]];then
+			echo "NO $1 found, retry"
+		else
+			break
+		fi
+	done
+}
+upload_file() {
+	gsutil cp  $1 gs://mango_bencher-dos/$2
+}
 ## preventing lock-file build fail, 
 ## also need to disable software upgrade in image
 sudo fuser -vki -TERM /var/lib/dpkg/lock /var/lib/dpkg/lock-frontend || true
@@ -54,23 +73,37 @@ if [[ -d "$BUILD_DEPENDENCY_BENCHER_DIR" ]];then
 else
     exit 1
 fi
+
 cd $BUILD_DEPENDENCY_BENCHER_DIR
 git submodule update --init --recursive
-# build solana b4 build mango
-cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR
-git clone $SOLANA_REPO
-cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR/solana
-if [[ "$SOLANA_GIT_COMMIT" ]];then
-    git checkout $SOLANA_GIT_COMMIT
-elif [[ "$SOLANA_BUILD_BRANCH" ]];then
-    git checkout $SOLANA_BUILD_BRANCH
-else 
-    exit 1
+if [[ "$BUILD_MANGO_BENCHER" == "true"]];then
+	# build solana b4 build mango
+	cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR
+	git clone $SOLANA_REPO
+	cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR/solana
+	if [[ "$SOLANA_GIT_COMMIT" ]];then
+		git checkout $SOLANA_GIT_COMMIT
+	elif [[ "$SOLANA_BUILD_BRANCH" ]];then
+		git checkout $SOLANA_BUILD_BRANCH
+	else 
+		exit 1
+	fi
+	git branch || true
+	# move to mango_bencher and build mango_bencher
+	cd $BUILD_DEPENDENCY_BENCHER_DIR
+	cargo build --release
 fi
-git branch || true
-# move to mango_bencher and build mango_bencher
-cd $BUILD_DEPENDENCY_BENCHER_DIR
-cargo build --release
+
+if  [[ "$BUILD_MANGO_BENCHER" == "true"]];then
+	# cp from BUILD_DEPENDENCY_BENCHER_DIR to HOME
+	cp $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango $HOME
+	chmod +x $HOME/solana-bench-mango
+else
+	# download from bucket
+	cd $HOME
+	download_file solana-bench-mango
+	[[ ! -f "$HOME/solana-bench-mango" ]] && echo no solana-bench-mango downloaded && exit 1
+fi
 
 # pre-requicy by configure_mango
 cd $HOME
@@ -90,30 +123,14 @@ cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
 rm package-lock.json || true
 git checkout $MANGO_CONFIGURE_BRANCH
 yarn install && yarn add @blockworks-foundation/mango-client
-## Download key files from gsutil
-download_file() {
-	for retry in 0 1
-	do
-		if [[ $retry -gt 1 ]];then
-			break
-		fi
-		gsutil cp  gs://mango_bencher-dos/$1 ./
-		if [[ ! -f "$1" ]];then
-			echo "NO $1 found, retry"
-		else
-			break
-		fi
-	done
-}
-upload_file() {
-	gsutil cp  $1 gs://mango_bencher-dos/$2
-}
 
 cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
 download_file $AUTHORITY_FILE
 [[ ! -f "$AUTHORITY_FILE" ]]&&echo no $AUTHORITY_FILE file && exit 1
+cp $AUTHORITY_FILE $HOME
 download_file $ID_FILE
 [[ ! -f "$ID_FILE" ]]&&echo no $ID_FILE file && exit 1
+cp $ID_FILE $HOME
 
 cd $BUILD_DEPENDENCY_BENCHER_DIR
 echo $ACCOUNTS
@@ -122,6 +139,6 @@ for acct in ${download_accounts[@]}
 do
   echo --- start to download $acct
   download_file $acct
+  cp $acct $HOME
 done
 upload_file $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango
-exit 0
