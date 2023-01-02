@@ -138,15 +138,12 @@ stop_time2=$outcom_in_sec
 echo ----- stage: dos-report ------
 source dos-reaport.sh
 
-sleep 60 #delay for log ready
+sleep 120 #delay for log ready
 source generate-exec-upload-logs.sh
 for sship in "${instance_ip[@]}"
 do
     ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-upload-logs.sh)
 done
-
-
-
 
 
 
