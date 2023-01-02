@@ -120,6 +120,7 @@ rm package-lock.json || true
 git checkout $MANGO_CONFIGURE_BRANCH
 yarn install && yarn add @blockworks-foundation/mango-client
 
+echo --- stage: Start To Download Files
 cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
 download_file $AUTHORITY_FILE
 [[ ! -f "$AUTHORITY_FILE" ]]&&echo no $AUTHORITY_FILE file && exit 1
@@ -137,4 +138,8 @@ do
   download_file $acct
   cp $acct $HOME
 done
+cd $HOME 
+download_file dos-metrics-env.sh
+[[ ! -f "$HOME/dos-metrics-env.sh" ]]&&echo no dos-metrics-env.sh file && exit 1
+
 upload_file $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango
