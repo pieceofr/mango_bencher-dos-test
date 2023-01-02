@@ -146,6 +146,24 @@ do
 done
 
 
+echo ----- stage: DOS report ------
+## PASS ENV
+[[ ! "$TPU_USE_QUIC" ]]&&TPU_USE_QUIC="false"
+[[ ! "$KEYPAIR_FILE" ]]&& KEYPAIR_FILE=large-keypairs.yaml
+[[ ! "$DURATION" ]]&&DURATION=1800
+[[ ! "$TX_COUNT" ]]&&TX_COUNT=10000
+[[ ! "$THREAD_BATCH_SLEEP_MS" ]]&&THREAD_BATCH_SLEEP_MS=1
+[[ ! "$SUSTAINED" ]]&& SUSTAINED="false"
+[[ $SLACK_WEBHOOK ]]&&echo "SLACK_WEBHOOK=$SLACK_WEBHOOK" >> dos-report-env.sh
+[[ $DISCORD_WEBHOOK ]]&&echo "DISCORD_WEBHOOK=$DISCORD_WEBHOOK" >> dos-report-env.sh
+[[ $DISCORD_AVATAR_URL ]]&&echo "DISCORD_AVATAR_URL=$DISCORD_AVATAR_URL" >> dos-report-env.sh
+ret_dos_report=$(exec ./dos-report.sh)
+
+echo ----- stage: printout run log ------
+if [[ "$PRINT_LOG" == "true" ]];then
+	ret_log=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@${instance_ip[0]} 'cat /home/sol/start-dos-test.nohup')
+fi
+
 
 if [[ "$KEEP_INSTANCES" != "true" ]];then
     echo ----- stage: delete instances ------
