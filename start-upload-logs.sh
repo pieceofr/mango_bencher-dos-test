@@ -17,6 +17,6 @@ ls -al
 # upload_file $BUILD_DEPENDENCY_BENCHER_DIR/target/release/$HOSTNAME-error.txt Log
 
 upload_file $HOME/$HOSTNAME-keeper.log Log
-upload_file $HOME/target/release/$HOSTNAME-TLOG.csv Log
-upload_file $HOME/target/release/$HOSTNAME-BLOCK.csv Log
-upload_file $HOME/target/release/$HOSTNAME-error.txt Log
+upload_file $HOME/$HOSTNAME-TLOG.csv Log
+upload_file $HOME/$HOSTNAME-BLOCK.csv Log
+upload_file $HOME/$HOSTNAME-error.txt Log
