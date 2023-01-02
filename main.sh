@@ -87,7 +87,7 @@ accounts=( $ACCOUNTS )
 #Generate first dos-test machine
 source generate-exec-dos-test.sh
 acct_num=1
-for acct ub "${accounts[@]}"
+for acct in "${accounts[@]}"
 do
     ACCOUNT_FILE=$acct
     [[ acct_num -ne 1 ]]&& RUN_KEEPER="false"
