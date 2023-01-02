@@ -5,7 +5,6 @@ echo "git checkout $BUILDKITE_BRANCH" >> exec-start-template.sh
 echo "cd ~" >> exec-start-template.sh
 echo 'cp ~/mango_bencher-dos-test/start-build-dependency.sh .' >> exec-start-template.sh
 echo 'cp ~/mango_bencher-dos-test/start-dos-test.sh .' >> exec-start-template.sh
-echo "export SOLANA_METRICS_CONFIG=\"$SOLANA_METRICS_CONFIG\"" >> exec-start-template.sh
 
 # add information to exec-start-build-dependency.sh
 echo ----- stage: create exec-start-build-dependency.sh ------
@@ -17,8 +16,6 @@ echo "export SOLANA_GIT_COMMIT=$SOLANA_GIT_COMMIT" >> exec-start-build-dependenc
 echo "export SOLANA_REPO=$SOLANA_REPO" >> exec-start-build-dependency.sh
 echo "export MANGO_BENCHER_REPO=$MANGO_BENCHER_REPO" >> exec-start-build-dependency.sh
 echo "export MANGO_BENCHER_BRANCH=$MANGO_BENCHER_BRANCH" >> exec-start-build-dependency.sh
-echo "export MANGO_CONFIGURE_REPO=$MANGO_CONFIGURE_REPO" >> exec-start-build-dependency.sh
-echo "export MANGO_CONFIGURE_BRANCH=$MANGO_CONFIGURE_BRANCH" >> exec-start-build-dependency.sh
 echo "export BUILD_DEPENDENCY_BENCHER_DIR=$BUILD_DEPENDENCY_BENCHER_DIR" >> exec-start-build-dependency.sh
 echo "export BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR=$BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR" >> exec-start-build-dependency.sh
 echo "export BUILD_DEPENDENCY_CONFIGUERE_DIR=$BUILD_DEPENDENCY_CONFIGUERE_DIR" >> exec-start-build-dependency.sh

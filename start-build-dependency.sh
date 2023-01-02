@@ -4,13 +4,10 @@ set -ex
 ## Check ENV
 [[ ! "$BUILD_DEPENDENCY_BENCHER_DIR" ]]&& BUILD_DEPENDENCY_BENCHER_DIR=$HOME/mango_bencher
 [[ ! "$BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR" ]]&& BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR=$HOME/mango_bencher/deps
-[[ ! "$BUILD_DEPENDENCY_CONFIGUERE_DIR" ]]&& BUILD_DEPENDENCY_CONFIGUERE_DIR=$HOME/configure_mango
 [[ ! "$SOLANA_BUILD_BRANCH" ]]&&[[ ! "$SOLANA_GIT_COMMIT" ]]&& echo No SOLANA_BUILD_BRANCH or SOLANA_GIT_COMMIT > env.output && exit 1
 [[ ! "$SOLANA_REPO" ]]&& echo no SOLANA_REPO=$SOLANA_REPO&& exit 1
 [[ ! "$MANGO_BENCHER_REPO" ]]&&  echo no MANGO_BENCHER_REPO=$MANGO_BENCHER_REPO&& exit 1
 [[ ! "$MANGO_BENCHER_BRANCH" ]]&&  echo no MANGO_BENCHER_BRANCH=$MANGO_BENCHER_BRANCH&& exit 1
-[[ ! "$MANGO_CONFIGURE_REPO" ]]&&  echo no MANGO_CONFIGURE_REPO=$MANGO_CONFIGURE_REPO&& exit 1
-[[ ! "$MANGO_CONFIGURE_BRANCH" ]]&&  echo no MANGO_CONFIGURE_BRANCH=$MANGO_CONFIGURE_BRANCH&& exit 1
 [[ ! "$ACCOUNTS" ]]&&  echo no ACCOUNTS=$ACCOUNTS&& exit 1
 [[ ! "$AUTHORITY_FILE" ]] &&  echo no AUTHORITY_FILE=$AUTHORITY_FILE&& exit 1
 [[ ! "$ID_FILE" ]] &&  echo no ID_FILE=$ID_FILE&& exit 1
@@ -21,7 +18,6 @@ set -ex
 [[ -f "env.output" ]]&& rm env.output
 echo BUILD_DEPENDENCY_BENCHER_DIR: $BUILD_DEPENDENCY_BENCHER_DIR >> env.output
 echo BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR: $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR >> env.output
-echo BUILD_DEPENDENCY_CONFIGUERE_DIR: $BUILD_DEPENDENCY_CONFIGUERE_DIR >> env.output
 echo SOLANA_BUILD_BRANCH: $SOLANA_BUILD_BRANCH >> env.output
 echo SOLANA_GIT_COMMIT: $SOLANA_GIT_COMMIT >> env.output
 echo SOLANA_REPO: $SOLANA_REPO >> env.output
@@ -90,12 +86,6 @@ download_file() {
 upload_file() {
 	gsutil cp  $1 gs://mango_bencher-dos/$2
 }
-
-cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
-download_file $AUTHORITY_FILE
-[[ ! -f "$AUTHORITY_FILE" ]]&&echo no $AUTHORITY_FILE file && exit 1
-download_file $ID_FILE
-[[ ! -f "$ID_FILE" ]]&&echo no $ID_FILE file && exit 1
 
 cd $BUILD_DEPENDENCY_BENCHER_DIR
 echo $ACCOUNTS
