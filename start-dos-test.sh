@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -ex
+source $HOME/dos-metrics-env.sh
 #############################
 [[ ! "$CLUSTER" ]] && echo no CLUSTER && exit 1
 [[ ! "$SOLANA_METRICS_CONFIG" ]] && echo no SOLANA_METRICS_CONFIG ENV && exit 1
