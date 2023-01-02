@@ -14,7 +14,7 @@ source dos-report-env.sh
 [[ ! $INFLUX_ORG_NAME ]]&& echo INFLUX_ORG_NAME env not found&&exit 1
 
 [[ ! $KEYPAIR_FILE ]]&& KEYPAIR_FILE="NA"&& echo KEYPAIR_FILE env not found, use $KEYPAIR_FILE
-[[ ! $INFLUX_HOST ]]&& INFLUX_HOST="https://us-west-2-2.aws.cloud2.influxdata.com"&&echo INFLUX_HOST env not found, use $INFLUX_HOST
+[[ ! $INFLUX_HOST ]]&& echo INFLUX_HOST env not found, use $INFLUX_HOST&&exit 1
 [[ ! $DURATION ]]&&	echo DURATION env not found, use $DURATION&&exit 1
 [[ ! $TX_COUNT ]]&&	echo TX_COUNT env not found, use $TX_COUNT&&exit 1
 [[ ! $TEST_TYPE ]]&&	echo TEST_TYPE env not found, use $TEST_TYPE&&exit 1
@@ -42,7 +42,7 @@ client_keypair_path="keypair-configs/$KEYPAIR_FILE"
 duration=$DURATION
 tx_count=$TX_COUNT
 thread_batch_sleep_ms=$THREAD_BATCH_SLEEP_MS
-API_V2_HOST="${INFLUX_HOST}/api/v2/query?org=${INFLUX_ORG_NAME}"
+API_V2_HOST="${INFLUX_HOST}/api/v2/query"
 HEADER_AUTH="Authorization: Token ${INFLUX_TOKEN}"
 CURL_TIMEOUT=12
 start_time=$START_TIME
