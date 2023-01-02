@@ -90,7 +90,7 @@ if [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
 	cargo build --release
 fi
 
-if  [[ "$BUILD_MANGO_BENCHER" == "true"]];then
+if  [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
 	# cp from BUILD_DEPENDENCY_BENCHER_DIR to HOME
 	cp $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango $HOME
 	chmod +x $HOME/solana-bench-mango
@@ -141,5 +141,7 @@ done
 cd $HOME 
 download_file dos-metrics-env.sh
 [[ ! -f "$HOME/dos-metrics-env.sh" ]]&&echo no dos-metrics-env.sh file && exit 1
+download dos-report-env.sh
+[[ ! -f "$HOME/dos-report-env.sh" ]]&&echo no dos-report-env.sh file && exit 1
 
 upload_file $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango
