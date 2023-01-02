@@ -2,10 +2,6 @@
 set -ex
 #############################
 [[ ! "$CLUSTER" ]] && echo no CLUSTER && exit 1
-[[ ! "$GIT_REPO" ]] && echo no GIT_REPO && exit 1
-[[ ! "$BUILDKITE_BRANCH" ]]&& echo No BUILDKITE_BRANCH > exit 1
-[[ ! "$SOLANA_REPO" ]] && echo no SOLANA_REPO && exit 1
-[[ ! "$SOLANA_BUILD_BRANCH" ]]&&[[ ! "$SOLANA_GIT_COMMIT" ]]&& echo No SOLANA_BUILD_BRANCH or SOLANA_GIT_COMMIT > exit 1
 [[ ! "$SOLANA_METRICS_CONFIG" ]] && echo no SOLANA_METRICS_CONFIG ENV && exit 1
 [[ ! "$MANGO_CONFIGURE_REPO" ]] && echo no MANGO_CONFIGURE_REPO ENV && exit 1
 [[ ! "$MANGO_CONFIGURE_BRANCH" ]] && echo no MANGO_CONFIGURE_BRANCH ENV && exit 1
@@ -52,43 +48,6 @@ download_file() {
 	done
 }
 
-echo --- stage: download files in $HOME Directory for dos-test and dos-test report -----
-cd $HOME
-## download files 
-[[ -f "$AUTHORITY_FILE" ]] && rm -rf $AUTHORITY_FILE
-download_file $AUTHORITY_FILE
-[[ ! -f "$AUTHORITY_FILE" ]]&&echo no $AUTHORITY_FILE file && exit 1
-[[ -f "$ID_FILE" ]] && rm -rf $ID_FILE
-download_file $ID_FILE
-[[ ! -f "$ID_FILE" ]]&&echo no $ID_FILE file && exit 1
-echo $ACCOUNTS
-download_accounts=( $ACCOUNTS )
-for acct in ${download_accounts[@]}
-do
-  [[ -f "$acct" ]] && rm -rf $acct
-  echo --- start to download $acct
-  download_file $acct
-  [[ ! -f "$acct" ]]&&echo no $acct file && exit 1
-done
-
-# download mango_bencher-dos repo
-cd $HOME
-[[ -d $GIT_REPO ]] && rm -rf $GIT_REPO
-git clone $GIT_REPO
-cd $HOME/mango_bencher-dos
-git checkout $BUILDKITE_BRANCH
-cp start-dos-test.sh $HOME
-
-# download solana and prepare solana repo
-cd $HOME
-[[ -d $SOLANA_REPO ]] && rm -rf $SOLANA_REPO
-git clone $SOLANA_REPO
-cd $HOME/solana
-if [[ "$SOLANA_GIT_COMMIT" ]];then
-    git checkout $SOLANA_GIT_COMMIT
-else
-    git checkout $SOLANA_BUILD_BRANCH
-fi
 ## Prepare Metrics Env
 [[ ! -d "$HOME/solana" ]]&& echo no solana && exit 1
 cd $HOME/solana/scripts
@@ -140,10 +99,8 @@ echo --- stage: Run Solana-bench-mango -----
 [[ ! "$ACCOUNT_FILE" ]] &&  ACCOUNT_FILE="account.json" && echo ACCOUNT_FILE=$ACCOUNT_FILE >> dos-env.out
 [[ ! "$ID_FILE" ]] &&  ID_FILE="id.json" && echo ID_FILE=$ID_FILE >> dos-env.out
 
-# benchmark exec
+# benchmark exec in $HOME Directory
 cd $HOME
-download_file solana-bench-mango
-chmod +x solana-bench-mango
 b_cluster_ep=$ENDPOINT
 b_auth_f="$HOME/$AUTHORITY_FILE"
 b_acct_f="$HOME/$ACCOUNT_FILE"
