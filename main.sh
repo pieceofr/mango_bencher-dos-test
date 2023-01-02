@@ -117,7 +117,6 @@ echo ----- stage: run dos test ---
 start_time=$(echo `date -u +%s`)
 get_time_after $start_time 5
 start_time_adjust=$outcom_in_sec
-echo "start_time_adjust=$start_time_adjust"
 
 client_num=1
 for sship in "${instance_ip[@]}"
@@ -135,7 +134,7 @@ sleep $sleep_time
 ### Get Time Stop
 stop_time=$(echo `date -u +%s`)
 get_time_before $stop_time 5
-stop_time2=$outcom_in_sec
+stop_time_adjust=$outcom_in_sec
 
 sleep $DURATION
 sleep 120 #delay for log ready
@@ -171,9 +170,9 @@ echo "SUSTAINED=$SUSTAINED" >> dos-report-env.sh
 [[ $DISCORD_WEBHOOK ]]&&echo "DISCORD_WEBHOOK=$DISCORD_WEBHOOK" >> dos-report-env.sh
 [[ $DISCORD_AVATAR_URL ]]&&echo "DISCORD_AVATAR_URL=$DISCORD_AVATAR_URL" >> dos-report-env.sh
 echo "START_TIME=${start_time}" >> dos-report-env.sh
-echo "START_TIME2=${start_time2}" >> dos-report-env.sh
+echo "START_TIME2=${start_time_adjust}" >> dos-report-env.sh
 echo "STOP_TIME=${stop_time}" >> dos-report-env.sh
-echo "STOP_TIME2=${stop_time2}" >> dos-report-env.sh
+echo "STOP_TIME2=${stop_time_adjust}" >> dos-report-env.sh
 cat dos-report-env.sh
 ret_dos_report=$(exec ./dos-report.sh)
 echo $ret_dos_report
