@@ -38,15 +38,20 @@ cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR/solana/scripts
 ret_config_metric=$(exec ./configure-metrics.sh || true )
 
 ## Run Keeper.ts
-cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
-k_log="$HOSTNAME-keeper.log"
-# Important artifact: keeper.log
-echo --- start to run keeper
-ret_keeper=$(yarn ts-node keeper.ts > $k_log 2> 1 &)
-
+if [[ "$RUN_KEEPER" == "true" ]] ;then
+    cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
+    k_log="$HOSTNAME-keeper.log"
+    # Important artifact: keeper.log
+    echo --- start to run keeper
+    ret_keeper=$(yarn ts-node keeper.ts > $k_log 2> 1 &)
+fi
 
 # benchmark exec
-cd $BUILD_DEPENDENCY_BENCHER_DIR/target/release/
+#cd $BUILD_DEPENDENCY_BENCHER_DIR/target/release/
+source utils.sh
+cd $HOME
+download_file solana-bench-mango
+chmod +x solana-bench-mango
 b_cluster_ep=$ENDPOINT
 b_auth_f="$BUILD_DEPENDENCY_CONFIGUERE_DIR/$AUTHORITY_FILE"
 b_acct_f="$BUILD_DEPENDENCY_BENCHER_DIR/$ACCOUNT_FILE"
@@ -62,10 +67,10 @@ echo --- start of benchmark $(date)
 ret_bench=$(./solana-bench-mango -u $b_cluster_ep --identity $b_auth_f --accounts $b_acct_f --mango $b_id_f --mango-cluster $b_mango_cluster --duration $b_duration -q $b_q --transaction_save_file $b_tx_save_f --block_data_save_file $b_block_save_f 2> $b_error_f &)
 echo --- end of benchmark $(date)
 echo --- write down log in log-files.out ---
-echo $b_tx_save_f > log-files.out
-echo $b_block_save_f >> log-files.out
-echo $b_error_f >> log-files.out
-echo $k_log >> log-files.out
+echo $b_tx_save_f > $HOME/log-files.out
+echo $b_block_save_f >> $HOME/log-files.out
+echo $b_error_f >> $HOME/log-files.out
+echo $k_log >> $HOME/log-files.out
 
 ## solana-bench-mango -- -u ${NET_OR_IP} --identity ../configure_mango/authority.json 
 ## --accounts ../configure_mango/accounts-20.json  --mango ../configure_mango/ids.json 

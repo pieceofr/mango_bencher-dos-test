@@ -83,10 +83,20 @@ echo ----- stage: prepare files to run the mango_bencher in the clients ---
 # setup Envs here so that generate-exec-files.sh can be used individually
 source generate-exec-dependency.sh
 accounts=( $ACCOUNTS )
-ACCOUNT_FILE=${accounts[1]}
+#ACCOUNT_FILE=${accounts[1]}
 #Generate first dos-test machine
-source generate-exec-dos-test.sh 
-echo ----- stage: create 1st machine  ---
+source generate-exec-dos-test.sh
+acct_num=1
+for acct ub "${accounts[@]}"
+do
+    ACCOUNT_FILE=$acct
+    [[ acct_num -ne 1 ]]&& RUN_KEEPER="false"
+    echo RUN_KEEPER=$RUN_KEEPER
+    gen_dos_test $acct_num
+    let acct_num=$acct_num+1
+done
+
+echo ----- stage: create 1st machine and build and upload solana-bench-mango ---
 cd $dos_program_dir
 source create-instance.sh
 create_machines 1
@@ -96,9 +106,19 @@ do
     ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-build-dependency.sh)
 done
 
+echo ----- stage: create rest machines ---
+let  rest_of_machine=$NUM_CLIENT-1
+append_machines $rest_of_machine
+
+echo ----- stage: run dos test ---
+client_num=1
 for sship in "${instance_ip[@]}"
 do
-    ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-dos-test.sh)
+    ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-dos-test-$client_num.sh)
+    let client_num=$client_num+1
+    if [[ $client_num -gt ${#accounts[@]} ]];then
+        client_num=1
+    fi 
 done
 
 sleep $DURATION
