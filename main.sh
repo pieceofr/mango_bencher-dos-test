@@ -104,7 +104,7 @@ echo ----- stage: build dependency mango_bencher configure_mango for 1st machine
 client_num=1
 for sship in "${instance_ip[@]}"
 do
-    if client_num -eq 1;then
+    if $client_num -eq 1;then
         ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-build-dependency-build.sh)
     else
         ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-build-dependency-download.sh)
