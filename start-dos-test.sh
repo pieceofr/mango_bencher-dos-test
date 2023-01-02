@@ -20,7 +20,7 @@ set -ex
 #### metrics env ####
 echo SOLANA_METRICS_CONFIG=\"$SOLANA_METRICS_CONFIG\" >> dos-env.out
 #### keeper ENV ####
-export CLUSTER=$CLUSTER 
+export CLUSTER=$CLUSTER
 export GROUP=$KEEPER_GROUP
 export ENDPOINT_URL=$KEEPER_ENDPOINT
 export CONSUME_EVENTS_INTERVAL=$KEEPER_CONSUME_EVENTS_INTERVAL
@@ -48,7 +48,21 @@ fi
 
 # benchmark exec
 #cd $BUILD_DEPENDENCY_BENCHER_DIR/target/release/
-source utils.sh
+download_file() {
+	for retry in 0 1
+	do
+		if [[ $retry -gt 1 ]];then
+			break
+		fi
+		gsutil cp  gs://mango_bencher-dos/$1 ./
+		if [[ ! -f "$1" ]];then
+			echo "NO $1 found, retry"
+            sleep 5
+		else
+			break
+		fi
+	done
+}
 cd $HOME
 download_file solana-bench-mango
 chmod +x solana-bench-mango

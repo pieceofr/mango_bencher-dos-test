@@ -15,6 +15,7 @@ download_file() {
 		gsutil cp  gs://mango_bencher-dos/$1 ./
 		if [[ ! -f "$1" ]];then
 			echo "NO $1 found, retry"
+            sleep 5
 		else
 			break
 		fi
