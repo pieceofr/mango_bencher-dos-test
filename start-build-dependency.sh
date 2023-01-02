@@ -72,7 +72,7 @@ fi
 
 cd $BUILD_DEPENDENCY_BENCHER_DIR
 git submodule update --init --recursive
-if [[ "$BUILD_MANGO_BENCHER" == "true"]];then
+if [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
 	# build solana b4 build mango
 	cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR
 	git clone $SOLANA_REPO
