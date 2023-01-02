@@ -88,3 +88,15 @@ function append_machines() {
     echo ${instance_zone[@]} > instance_name.out
     echo ${instance_zone[@]} > instance_zone.out
 }
+
+
+function delete_machines(){
+    echo ----- stage: remove gc instances ------
+	echo "instance_name : ${instance_name[@]}"
+	echo "instance_zone : ${instance_zone[@]}"
+	for idx in "${!instance_name[@]}"
+	do
+		gcloud compute instances delete --quiet ${instance_name[$idx]} --zone=${instance_zone[$idx]}
+		echo delete $vms
+	done
+}

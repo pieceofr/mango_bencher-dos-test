@@ -46,3 +46,12 @@ function get_testnet_ver() {
     fi
 }
 
+# given time $1 and get after $2 seconds
+get_time_after() {
+	outcom_in_sec=$(echo $1 + $2 | bc) 
+}
+
+# given time $1 and get before $2 seconds
+get_time_before() {
+	outcom_in_sec=$(echo $1 - $2 | bc) 
+}

@@ -2,12 +2,16 @@ echo ----- stage: create exec-start-dos-test-x.sh ------
 # add information to exec-start-dos-test.sh
 function gen_dos_test() {
     cat exec-start-template.sh > exec-start-dos-test-$1.sh
-    echo "export BUILD_DEPENDENCY_BENCHER_DIR=$BUILD_DEPENDENCY_BENCHER_DIR" >> exec-start-dos-test-$1.sh
-    echo "export BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR=$BUILD_DEPENDENCY_BENCHER_DIR/deps" >> exec-start-dos-test-$1.sh
+    echo "export SOLANA_REPO=$SOLANA_REPO" >> exec-start-dos-test-$1.sh
+    echo "export SOLANA_GIT_COMMIT=$SOLANA_GIT_COMMIT" >> exec-start-dos-test-$1.sh
+    echo "export BUILDKITE_BRANCH=$BUILDKITE_BRANCH" >> exec-start-dos-test-$1.sh
+    echo "export MANGO_CONFIGURE_REPO=$MANGO_CONFIGURE_REPO" >> exec-start-dos-test-$1.sh
+    echo "export MANGO_CONFIGURE_BRANCH=$MANGO_CONFIGURE_BRANCH" >> exec-start-dos-test-$1.sh
     echo "export BUILD_DEPENDENCY_CONFIGUERE_DIR=$BUILD_DEPENDENCY_CONFIGUERE_DIR" >> exec-start-dos-test-$1.sh
     echo "export ENDPOINT=$ENDPOINT" >> exec-start-dos-test-$1.sh
     echo "export DURATION=$DURATION" >> exec-start-dos-test-$1.sh
     echo "export QOUTES_PER_SECOND=$QOUTES_PER_SECOND" >> exec-start-dos-test-$1.sh
+    echo "export ACCOUNTS=\"$ACCOUNTS\"" >>exec-start-dos-test-$1.sh # Notice without double quoate mark, it won't be parse into array
     echo "export ACCOUNT_FILE=$ACCOUNT_FILE" >> exec-start-dos-test-$1.sh
     echo "export ID_FILE=$ID_FILE" >> exec-start-dos-test-$1.sh
     echo "export AUTHORITY_FILE=$AUTHORITY_FILE" >> exec-start-dos-test-$1.sh

@@ -111,6 +111,12 @@ let  rest_of_machine=$NUM_CLIENT-1
 append_machines $rest_of_machine
 
 echo ----- stage: run dos test ---
+# Get Time Start
+start_time=$(echo `date -u +%s`)
+get_time_after $start_time 5
+start_time_adjust=$outcom_in_sec
+echo "start_time_adjust=$start_time_adjust"
+
 client_num=1
 for sship in "${instance_ip[@]}"
 do
@@ -120,14 +126,36 @@ do
         client_num=1
     fi 
 done
+echo ----- stage: wait for benchmark to end ------
+sleep_time=$(echo "$DURATION+2" | bc)
+sleep $sleep_time
 
-sleep $DURATION
+### Get Time Stop
+stop_time=$(echo `date -u +%s`)
+get_time_before $stop_time 5
+stop_time2=$outcom_in_sec
+
+echo ----- stage: dos-report ------
+source dos-reaport.sh
+
 sleep 60 #delay for log ready
 source generate-exec-upload-logs.sh
 for sship in "${instance_ip[@]}"
 do
     ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-upload-logs.sh)
 done
+
+
+
+
+
+
+if [[ "$KEEP_INSTANCES" != "true" ]];then
+    echo ----- stage: delete instances ------
+    delete_machines
+fi
+
+exit 0
 
 # echo ----- stage: printout run log ------
 # if [[ "$PRINT_LOG" == "true" ]];then
