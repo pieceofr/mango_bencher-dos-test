@@ -137,8 +137,6 @@ stop_time=$(echo `date -u +%s`)
 get_time_before $stop_time 5
 stop_time_adjust=$outcom_in_sec
 
-
-
 echo ----- stage: DOS report ------
 ## PASS ENV
 [[ $SLACK_WEBHOOK ]]&&echo "SLACK_WEBHOOK=$SLACK_WEBHOOK" >> dos-report-env.sh
@@ -154,6 +152,7 @@ echo "NUM_CLIENT=$NUM_CLIENT" >> dos-report-env.sh
 echo "GIT_COMMIT=$SOLANA_GIT_COMMIT" >> dos-report-env.sh
 echo "CLUSTER_VERSION=$testnet_ver" >> dos-report-env.sh
 echo "SOLANA_BUILD_BRANCH=$SOLANA_BUILD_BRANCH" >> dos-report-env.sh
+
 for n in "${instance_name[@]}"
 do
     printf instances "%s %s" $instances $n
@@ -175,14 +174,11 @@ do
     ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-upload-logs.sh)
 done
 
-sleep 10 =
+sleep 10
 if [[ "$KEEP_INSTANCES" != "true" ]];then
     echo ----- stage: delete instances ------
     delete_machines
 fi
-
-
-
 
 exit 0
 
