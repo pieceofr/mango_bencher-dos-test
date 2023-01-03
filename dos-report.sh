@@ -19,7 +19,7 @@ source dos-report-env.sh
 [[ ! $SOLANA_BUILD_BRANCH ]]&&	echo SOLANA_BUILD_BRANCH env not found, use $SOLANA_BUILD_BRANCH&&exit 1
 [[ ! $INFLUX_TOKEN ]]&& echo INFLUX_TOKEN env not found&&exit 1
 [[ ! $INFLUX_HOST ]]&& echo INFLUX_HOST env not found, use $INFLUX_HOST&&exit 1
-[[ ! $CLIENTS_NAME ]]&& exit 1
+
 if [[ -n $BUILDKITE_BUILD_URL ]] ; then
 	BUILD_BUTTON_TEXT="Build Kite Job"
 else
@@ -41,6 +41,7 @@ start_time=$START_TIME
 start_time2=$START_TIME2
 stop_time=$STOP_TIME
 stop_time2=$STOP_TIME2
+instances=$INSTANCES
 
 ## make sure 
 source influx_data.sh
