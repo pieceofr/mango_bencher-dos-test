@@ -128,25 +128,16 @@ do
     fi 
 done
 echo ----- stage: wait for benchmark to end ------
+sleep $DURATION
+
 sleep_time=$(echo "$DURATION+2" | bc)
 sleep $sleep_time
-
 ### Get Time Stop
 stop_time=$(echo `date -u +%s`)
 get_time_before $stop_time 5
 stop_time_adjust=$outcom_in_sec
 
-sleep $DURATION
-sleep 120 #delay for log ready
-source generate-exec-upload-logs.sh
-for sship in "${instance_ip[@]}"
-do
-    ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-upload-logs.sh)
-done
 
-
-echo ----- stage: DOS report ------
-## PASS ENV
 
 echo ----- stage: DOS report ------
 ## PASS ENV
@@ -177,11 +168,21 @@ if [[ "$PRINT_LOG" == "true" ]];then
 	ret_log=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@${instance_ip[0]} 'cat /home/sol/start-dos-test.nohup')
 fi
 
+sleep 60 #delay for log ready
+source generate-exec-upload-logs.sh
+for sship in "${instance_ip[@]}"
+do
+    ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-upload-logs.sh)
+done
 
+sleep 10 =
 if [[ "$KEEP_INSTANCES" != "true" ]];then
     echo ----- stage: delete instances ------
     delete_machines
 fi
+
+
+
 
 exit 0
 
