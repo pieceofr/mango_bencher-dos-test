@@ -163,6 +163,11 @@ echo "NUM_CLIENT=$NUM_CLIENT" >> dos-report-env.sh
 echo "GIT_COMMIT=$SOLANA_GIT_COMMIT" >> dos-report-env.sh
 echo "CLUSTER_VERSION=$testnet_ver" >> dos-report-env.sh
 echo "SOLANA_BUILD_BRANCH=$SOLANA_BUILD_BRANCH" >> dos-report-env.sh
+for n in "${instance_name[@]}"
+do
+    printf instances "%s %s" $instances $n
+done
+echo "INSTANCES=$instances" >> dos-report-env.sh
 
 ret_dos_report=$(exec ./dos-report.sh)
 echo $ret_dos_report

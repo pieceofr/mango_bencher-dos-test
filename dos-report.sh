@@ -19,6 +19,7 @@ source dos-report-env.sh
 [[ ! $SOLANA_BUILD_BRANCH ]]&&	echo SOLANA_BUILD_BRANCH env not found, use $SOLANA_BUILD_BRANCH&&exit 1
 [[ ! $INFLUX_TOKEN ]]&& echo INFLUX_TOKEN env not found&&exit 1
 [[ ! $INFLUX_HOST ]]&& echo INFLUX_HOST env not found, use $INFLUX_HOST&&exit 1
+[[ ! $CLIENTS_NAME ]]&& exit 1
 if [[ -n $BUILDKITE_BUILD_URL ]] ; then
 	BUILD_BUTTON_TEXT="Build Kite Job"
 else
@@ -31,6 +32,7 @@ git_commit=$GIT_COMMIT
 cluster_version=$CLUSTER_VERSION
 num_clients=$NUM_CLIENT
 duration=$DURATION
+instances=$INSTANCES
 qoutes_per_second=$QOUTES_PER_SECOND
 API_V2_HOST="${INFLUX_HOST}/api/v2/query"
 HEADER_AUTH="Authorization: Token ${INFLUX_TOKEN}"

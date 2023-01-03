@@ -10,10 +10,10 @@ slack_send(){
 
 
 ## Construct Test_Configuration
-printf -v test_config  "%s\n%s\n%s\n%s\n%s\n%s\n%s\n" \
+printf -v test_config  "%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n" \
 		"client = mango_bencher-dos-test" "solana-build-branch = $SOLANA_BUILD_BRANCH" "solana-git-commit = $git_commit" \
 		"cluster version = $cluster_version" "number-of-clients = $num_clients" \
-		"duration = $duration" "qoutes_per_second = $qoutes_per_second" 
+		"duration = $duration" "qoutes_per_second = $qoutes_per_second" "instances = $instances"
 	
 # Construct Slack Result_Details Report
 printf -v s_time_start "%s%s" "time_start: $(date --rfc-3339=seconds -u -d @$start_time)" "\\n"
