@@ -150,22 +150,6 @@ echo ----- stage: DOS report ------
 
 echo ----- stage: DOS report ------
 ## PASS ENV
-[[ ! "$TPU_USE_QUIC" ]]&&TPU_USE_QUIC="false"
-echo "CLUSTER_VERSION=$TESTNET_VER" >> dos-report-env.sh
-echo "GIT_COMMIT=$GIT_COMMIT" >> dos-report-env.sh
-echo "NUM_CLIENT=$NUM_CLIENT" >> dos-report-env.sh
-[[ ! "$KEYPAIR_FILE" ]]&& KEYPAIR_FILE=large-keypairs.yaml
-echo "KEYPAIR_FILE=$KEYPAIR_FILE" >> dos-report-env.sh
-echo "DURATION=$DURATION" >> dos-report-env.sh
-echo "TX_COUNT=$TX_COUNT" >> dos-report-env.sh
-
-[[ ! "$THREAD_BATCH_SLEEP_MS" ]]&&THREAD_BATCH_SLEEP_MS=1
-echo "THREAD_BATCH_SLEEP_MS=$THREAD_BATCH_SLEEP_MS" >> dos-report-env.sh
-echo "SOLANA_BUILD_BRANCH=$SOLANA_BUILD_BRANCH" >> dos-report-env.sh
-
-[[ ! "$SUSTAINED" ]]&& SUSTAINED="false"
-echo "SUSTAINED=$SUSTAINED" >> dos-report-env.sh
-
 [[ $SLACK_WEBHOOK ]]&&echo "SLACK_WEBHOOK=$SLACK_WEBHOOK" >> dos-report-env.sh
 [[ $DISCORD_WEBHOOK ]]&&echo "DISCORD_WEBHOOK=$DISCORD_WEBHOOK" >> dos-report-env.sh
 [[ $DISCORD_AVATAR_URL ]]&&echo "DISCORD_AVATAR_URL=$DISCORD_AVATAR_URL" >> dos-report-env.sh
@@ -173,9 +157,16 @@ echo "START_TIME=${start_time}" >> dos-report-env.sh
 echo "START_TIME2=${start_time_adjust}" >> dos-report-env.sh
 echo "STOP_TIME=${stop_time}" >> dos-report-env.sh
 echo "STOP_TIME2=${stop_time_adjust}" >> dos-report-env.sh
-cat dos-report-env.sh
+echo "DURATION=$DURATION" >> dos-report-env.sh                 
+echo "QOUTES_PER_SECOND=$QOUTES_PER_SECOND" >> dos-report-env.sh
+echo "NUM_CLIENT=$NUM_CLIENT" >> dos-report-env.sh
+echo "GIT_COMMIT=$SOLANA_GIT_COMMIT" >> dos-report-env.sh
+echo "CLUSTER_VERSION=$testnet_ver" >> dos-report-env.sh
+echo "SOLANA_BUILD_BRANCH=$SOLANA_BUILD_BRANCH" >> dos-report-env.sh
+
 ret_dos_report=$(exec ./dos-report.sh)
 echo $ret_dos_report
+
 echo ----- stage: printout run log ------
 if [[ "$PRINT_LOG" == "true" ]];then
 	ret_log=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@${instance_ip[0]} 'cat /home/sol/start-dos-test.nohup')
