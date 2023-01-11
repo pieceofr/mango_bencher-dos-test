@@ -63,6 +63,8 @@ if [[ "$RUN_KEEPER" == "true" ]] ;then
     ret_keeper=$(yarn ts-node keeper.ts > $k_log 2> 1 &)
 fi
 
+sleep 10
+
 echo --- stage: Run Solana-bench-mango -----
 #### mango_bencher ENV printout for checking ####
 [[ ! "$DURATION" ]] &&  DURATION=120 && echo DURATION=$DURATION >> dos-env.out

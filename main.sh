@@ -128,6 +128,7 @@ do
     fi 
 done
 echo ----- stage: wait for benchmark to end ------
+sleep 10 # in start-dos-test, after keeper run, the script sleep 10s to wait for keeper ready
 sleep $DURATION
 
 sleep_time=$(echo "$DURATION+2" | bc)
