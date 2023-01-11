@@ -75,6 +75,7 @@ echo --- stage: Run Solana-bench-mango -----
 
 # benchmark exec in $HOME Directory
 cd $HOME
+mkdir $HOSTNAME
 b_cluster_ep=$ENDPOINT
 b_auth_f="$HOME/$AUTHORITY_FILE"
 b_acct_f="$HOME/$ACCOUNT_FILE"
@@ -82,9 +83,9 @@ b_id_f="$HOME/$ID_FILE"
 b_mango_cluster=$CLUSTER
 b_duration=$DURATION
 b_q=$QOUTES_PER_SECOND
-b_tx_save_f="$HOSTNAME-TLOG.csv"
-b_block_save_f="$HOSTNAME-BLOCK.csv"
-b_error_f="$HOSTNAME-error.txt"
+b_tx_save_f="$HOME/$HOSTNAME/$HOSTNAME-TLOG.csv"
+b_block_save_f="$HOME/$HOSTNAME/$HOSTNAME-BLOCK.csv"
+b_error_f="$HOME/$HOSTNAME/$HOSTNAME-error.txt"
 echo $(pwd)
 echo --- start of benchmark $(date)
 ret_bench=$(./solana-bench-mango -u $b_cluster_ep --identity $b_auth_f --accounts $b_acct_f --mango $b_id_f --mango-cluster $b_mango_cluster --duration $b_duration -q $b_q --transaction_save_file $b_tx_save_f --block_data_save_file $b_block_save_f 2> $b_error_f &)
