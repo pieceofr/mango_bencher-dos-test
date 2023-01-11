@@ -113,11 +113,6 @@ done
 
 
 echo ----- stage: run dos test ---
-# Get Time Start
-start_time=$(echo `date -u +%s`)
-get_time_after $start_time 5
-start_time_adjust=$outcom_in_sec
-
 client_num=1
 for sship in "${instance_ip[@]}"
 do
@@ -129,6 +124,11 @@ do
 done
 echo ----- stage: wait for benchmark to end ------
 sleep 10 # in start-dos-test, after keeper run, the script sleep 10s to wait for keeper ready
+
+# Get Time Start
+start_time=$(echo `date -u +%s`)
+get_time_after $start_time 5
+start_time_adjust=$outcom_in_sec
 sleep $DURATION
 
 sleep_time=$(echo "$DURATION+2" | bc)
