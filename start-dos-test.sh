@@ -53,11 +53,16 @@ download_file() {
 cd $HOME/solana/scripts
 ret_config_metric=$(exec ./configure-metrics.sh || true )
 
+## Prepare Log Directory
+if [[ ! -d "$HOME/$HOSTNAME" ]];then
+	mkdir $HOME/$HOSTNAME
+fi
+
  ## Run Keeper.ts
 if [[ "$RUN_KEEPER" == "true" ]] ;then
 	echo --- stage: Run Keeper -----
     cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
-    k_log="$HOME/$HOSTNAME-keeper.log"
+    k_log="$HOME/$HOSTNAME/keeper.log"
     # Important artifact: keeper.log
     echo --- start to run keeper
     ret_keeper=$(yarn ts-node keeper.ts > $k_log 2> 1 &)
@@ -77,7 +82,6 @@ echo --- stage: Run Solana-bench-mango -----
 
 # benchmark exec in $HOME Directory
 cd $HOME
-mkdir $HOSTNAME
 b_cluster_ep=$ENDPOINT
 b_auth_f="$HOME/$AUTHORITY_FILE"
 b_acct_f="$HOME/$ACCOUNT_FILE"
@@ -85,9 +89,9 @@ b_id_f="$HOME/$ID_FILE"
 b_mango_cluster=$CLUSTER
 b_duration=$DURATION
 b_q=$QOUTES_PER_SECOND
-b_tx_save_f="$HOME/$HOSTNAME/$HOSTNAME-TLOG.csv"
-b_block_save_f="$HOME/$HOSTNAME/$HOSTNAME-BLOCK.csv"
-b_error_f="$HOME/$HOSTNAME/$HOSTNAME-error.txt"
+b_tx_save_f="$HOME/$HOSTNAME/TLOG.csv"
+b_block_save_f="$HOME/$HOSTNAME/BLOCK.csv"
+b_error_f="$HOME/$HOSTNAME/error.txt"
 echo $(pwd)
 echo --- start of benchmark $(date)
 ret_bench=$(./solana-bench-mango -u $b_cluster_ep --identity $b_auth_f --accounts $b_acct_f --mango $b_id_f --mango-cluster $b_mango_cluster --duration $b_duration -q $b_q --transaction_save_file $b_tx_save_f --block_data_save_file $b_block_save_f 2> $b_error_f &)
