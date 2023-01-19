@@ -57,7 +57,7 @@ ret_config_metric=$(exec ./configure-metrics.sh || true )
 if [[ "$RUN_KEEPER" == "true" ]] ;then
 	echo --- stage: Run Keeper -----
     cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
-    k_log="$HOME/$HOSTNAME/$HOSTNAME-keeper.log"
+    k_log="$HOME/$HOSTNAME-keeper.log"
     # Important artifact: keeper.log
     echo --- start to run keeper
     ret_keeper=$(yarn ts-node keeper.ts > $k_log 2> 1 &)
