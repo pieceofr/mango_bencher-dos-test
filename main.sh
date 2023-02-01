@@ -22,9 +22,9 @@ set -ex
 [[ ! "$SOLANA_BUILD_BRANCH" ]]&& SOLANA_BUILD_BRANCH=same-as-cluster && echo SOLANA_BUILD_BRANCH env not found, use $SOLANA_BUILD_BRANCH
 #[[ ! "$BUILD_SOLANA" ]]&& BUILD_SOLANA=true && echo BUILD_SOLANA env not found, use $BUILD_SOLANA
 [[ ! "$MANGO_BENCHER_REPO" ]]&& MANGO_BENCHER_REPO=https://github.com/KirillLykov/mango_bencher.git && echo MANGO_BENCHER_REPO env not found, use $MANGO_BENCHER_REPO
-[[ ! "$MANGO_BENCHER_BRANCH" ]]&& MANGO_BENCHER_BRANCH=master && echo MANGO_BENCHER_BRANCH env not found, use $MANGO_BENCHER_BRANCH
+[[ ! "$MANGO_BENCHER_BRANCH" ]]&& MANGO_BENCHER_BRANCH=no_solana_submod && echo MANGO_BENCHER_BRANCH env not found, use $MANGO_BENCHER_BRANCH
 [[ ! "$MANGO_CONFIGURE_REPO" ]]&& MANGO_CONFIGURE_REPO=https://github.com/godmodegalactus/configure_mango.git && echo MANGO_CONFIGURE_REPO env not found, use $MANGO_CONFIGURE_REPO
-[[ ! "$MANGO_CONFIGURE_BRANCH" ]]&& MANGO_CONFIGURE_BRANCH=master && echo MANGO_CONFIGURE_BRANCH env not found, use $MANGO_CONFIGURE_BRANCH
+[[ ! "$MANGO_CONFIGURE_BRANCH" ]]&& MANGO_CONFIGURE_BRANCH=main && echo MANGO_CONFIGURE_BRANCH env not found, use $MANGO_CONFIGURE_BRANCH
 
 ## CI program ENVS
 [[ ! "$GIT_TOKEN" ]]&& echo GIT_TOKEN env not found && exit 1
