@@ -136,6 +136,8 @@ for acct in ${download_accounts[@]}
 do
   echo --- start to download $acct
   download_file $acct
+  # check that all client accounts have enough tokens
+  ts-node refund_users.ts $acct
   cp $acct $HOME
 done
 cd $HOME 
