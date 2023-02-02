@@ -95,9 +95,10 @@ b_error_f="$HOME/$HOSTNAME/error.txt"
 echo $(pwd)
 echo --- start of benchmark $(date)
 ret_bench=$(./solana-bench-mango -u $b_cluster_ep --identity $b_auth_f --accounts $b_acct_f --mango $b_id_f --mango-cluster $b_mango_cluster --duration $b_duration -q $b_q --transaction_save_file $b_tx_save_f --block_data_save_file $b_block_save_f 2> $b_error_f &)
+tar --remove-files -czf "${b_tx_save_f}.tar.gz" ${b_tx_save_f}
 echo --- end of benchmark $(date)
 echo --- write down log in log-files.out ---
-echo $b_tx_save_f > $HOME/log-files.out
+echo "${b_tx_save_f}.tar.gz" > $HOME/log-files.out
 echo $b_block_save_f >> $HOME/log-files.out
 echo $b_error_f >> $HOME/log-files.out
 echo $k_log >> $HOME/log-files.out
