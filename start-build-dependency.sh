@@ -136,8 +136,6 @@ for acct in ${download_accounts[@]}
 do
   echo --- start to download $acct
   download_file $acct
-  # check that all client accounts have enough tokens
-  echo --- refund clients accounts if needed $acct
   cp $acct $HOME
 done
 
@@ -145,9 +143,10 @@ echo --- stage: Start refunding clients accounts
 cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
 for acct in ${download_accounts[@]}
 do
-  ts-node refund_users.ts "${HOME}/$acct"
+  ts-node refund_users.ts "${HOME}/$acct" > out.log 2>1 || true
   if [ $? -ne 0 ]; then
     echo --- refund failed for $acct
+    cat out.log
   fi
 done
 
