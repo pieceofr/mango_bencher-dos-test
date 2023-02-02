@@ -138,12 +138,19 @@ do
   download_file $acct
   # check that all client accounts have enough tokens
   echo --- refund clients accounts if needed $acct
-  ts-node refund_users.ts $acct
+  cp $acct $HOME
+done
+
+echo --- stage: Start refunding clients accounts
+cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
+for acct in ${download_accounts[@]}
+do
+  ts-node refund_users.ts "${HOME}/$acct"
   if [ $? -ne 0 ]; then
     echo --- refund failed for $acct
   fi
-  cp $acct $HOME
 done
+
 cd $HOME 
 download_file dos-metrics-env.sh
 [[ ! -f "$HOME/dos-metrics-env.sh" ]]&&echo no dos-metrics-env.sh file && exit 1
