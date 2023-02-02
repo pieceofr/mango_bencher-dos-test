@@ -87,10 +87,10 @@ cd $BUILD_DEPENDENCY_BENCHER_DIR
 #	git branch || true
 #	# move to mango_bencher and build mango_bencher
 #	cd $BUILD_DEPENDENCY_BENCHER_DIR
-#	cargo build --release
 #fi
 
 if  [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
+	cargo build --release
 	# cp from BUILD_DEPENDENCY_BENCHER_DIR to HOME
 	cp $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango $HOME
 	chmod +x $HOME/solana-bench-mango
@@ -137,7 +137,11 @@ do
   echo --- start to download $acct
   download_file $acct
   # check that all client accounts have enough tokens
+  echo --- refund clients accounts if needed $acct
   ts-node refund_users.ts $acct
+  if [ $? -ne 0 ]; then
+    echo --- refund failed for $acct
+  fi
   cp $acct $HOME
 done
 cd $HOME 
