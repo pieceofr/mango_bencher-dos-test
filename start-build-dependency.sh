@@ -3,7 +3,7 @@
 set -ex
 ## Check ENV
 [[ ! "$BUILD_DEPENDENCY_BENCHER_DIR" ]]&& BUILD_DEPENDENCY_BENCHER_DIR=$HOME/mango_bencher
-[[ ! "$BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR" ]]&& BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR=$HOME/mango_bencher/deps
+#[[ ! "$BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR" ]]&& BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR=$HOME/mango_bencher/deps
 [[ ! "$SOLANA_BUILD_BRANCH" ]]&&[[ ! "$SOLANA_GIT_COMMIT" ]]&& echo No SOLANA_BUILD_BRANCH or SOLANA_GIT_COMMIT > env.output && exit 1
 [[ ! "$SOLANA_REPO" ]]&& echo no SOLANA_REPO=$SOLANA_REPO&& exit 1
 [[ ! "$MANGO_BENCHER_REPO" ]]&&  echo no MANGO_BENCHER_REPO=$MANGO_BENCHER_REPO&& exit 1
@@ -18,7 +18,7 @@ set -ex
 [[ -f "env.output" ]]&& rm env.output
 echo BUILD_MANGO_BENCHER: $BUILD_MANGO_BENCHER >> env.output
 echo BUILD_DEPENDENCY_BENCHER_DIR: $BUILD_DEPENDENCY_BENCHER_DIR >> env.output
-echo BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR: $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR >> env.output
+#echo BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR: $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR >> env.output
 echo SOLANA_BUILD_BRANCH: $SOLANA_BUILD_BRANCH >> env.output
 echo SOLANA_GIT_COMMIT: $SOLANA_GIT_COMMIT >> env.output
 echo SOLANA_REPO: $SOLANA_REPO >> env.output
@@ -64,33 +64,33 @@ cd $HOME
 [[ -d "$BUILD_DEPENDENCY_BENCHER_DIR" ]]&& rm -rf mango_bencher
 # clone mango_bencher and mkdir dep dir
 git clone $MANGO_BENCHER_REPO
-if [[ -d "$BUILD_DEPENDENCY_BENCHER_DIR" ]];then
-    mkdir $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR
-else
-    exit 1
-fi
+#if [[ -d "$BUILD_DEPENDENCY_BENCHER_DIR" ]];then
+#    mkdir $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR
+#else
+#    exit 1
+#fi
 
 cd $BUILD_DEPENDENCY_BENCHER_DIR
-git submodule update --init --recursive
-if [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
-	# build solana b4 build mango
-	cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR
-	git clone $SOLANA_REPO
-	cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR/solana
-	if [[ "$SOLANA_GIT_COMMIT" ]];then
-		git checkout $SOLANA_GIT_COMMIT
-	elif [[ "$SOLANA_BUILD_BRANCH" ]];then
-		git checkout $SOLANA_BUILD_BRANCH
-	else 
-		exit 1
-	fi
-	git branch || true
-	# move to mango_bencher and build mango_bencher
-	cd $BUILD_DEPENDENCY_BENCHER_DIR
-	cargo build --release
-fi
+#git submodule update --init --recursive
+#if [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
+#	# build solana b4 build mango
+#	cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR
+#	git clone $SOLANA_REPO
+#	cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR/solana
+#	if [[ "$SOLANA_GIT_COMMIT" ]];then
+#		git checkout $SOLANA_GIT_COMMIT
+#	elif [[ "$SOLANA_BUILD_BRANCH" ]];then
+#		git checkout $SOLANA_BUILD_BRANCH
+#	else 
+#		exit 1
+#	fi
+#	git branch || true
+#	# move to mango_bencher and build mango_bencher
+#	cd $BUILD_DEPENDENCY_BENCHER_DIR
+#fi
 
 if  [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
+	cargo build --release
 	# cp from BUILD_DEPENDENCY_BENCHER_DIR to HOME
 	cp $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango $HOME
 	chmod +x $HOME/solana-bench-mango
@@ -138,6 +138,18 @@ do
   download_file $acct
   cp $acct $HOME
 done
+
+echo --- stage: Start refunding clients accounts
+cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
+for acct in ${download_accounts[@]}
+do
+  ts-node refund_users.ts "${HOME}/$acct" > out.log 2>1 || true
+  if [ $? -ne 0 ]; then
+    echo --- refund failed for $acct
+    cat out.log
+  fi
+done
+
 cd $HOME 
 download_file dos-metrics-env.sh
 [[ ! -f "$HOME/dos-metrics-env.sh" ]]&&echo no dos-metrics-env.sh file && exit 1
