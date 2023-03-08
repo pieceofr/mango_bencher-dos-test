@@ -94,7 +94,7 @@ b_block_save_f="$HOME/$HOSTNAME/BLOCK.csv"
 b_error_f="$HOME/$HOSTNAME/error.txt"
 echo $(pwd)
 echo --- start of benchmark $(date)
-ret_bench=$(./solana-bench-mango -u $b_cluster_ep --identity $b_auth_f --accounts $b_acct_f --mango $b_id_f --mango-cluster $b_mango_cluster --duration $b_duration -q $b_q --transaction_save_file $b_tx_save_f --block_data_save_file $b_block_save_f 2> $b_error_f &)
+ret_bench=$(./solana-bench-mango -u $b_cluster_ep --identity $b_auth_f --accounts $b_acct_f --mango $b_id_f --mango-cluster $b_mango_cluster --duration $b_duration -q $b_q --transaction-save-file $b_tx_save_f --block_data_save_file $b_block_save_f 2> $b_error_f &)
 tar --remove-files -czf "${b_tx_save_f}.tar.gz" ${b_tx_save_f}
 echo --- end of benchmark $(date)
 echo --- write down log in log-files.out ---
@@ -105,5 +105,5 @@ echo $k_log >> $HOME/log-files.out
 
 ## solana-bench-mango -- -u ${NET_OR_IP} --identity ../configure_mango/authority.json 
 ## --accounts ../configure_mango/accounts-20.json  --mango ../configure_mango/ids.json 
-## --mango-cluster ${IP_OF_MANGO_CLIENT} --duration 60 -q 128 --transaction_save_file tlog.csv 
+## --mango-cluster ${IP_OF_MANGO_CLIENT} --duration 60 -q 128 --transaction-save-file tlog.csv 
 ## --block_data_save_file blog.csv  2> err.txt &
