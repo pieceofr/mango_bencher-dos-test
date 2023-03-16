@@ -24,8 +24,6 @@ echo SOLANA_GIT_COMMIT: $SOLANA_GIT_COMMIT >> env.output
 echo SOLANA_REPO: $SOLANA_REPO >> env.output
 echo MANGO_BENCHER_REPO: $MANGO_BENCHER_REPO >> env.output
 echo MANGO_BENCHER_BRANCH: $MANGO_BENCHER_BRANCH >> env.output
-echo MANGO_BENCHER_REPO: $MANGO_BENCHER_REPO >> env.output
-echo MANGO_BENCHER_BRANCH: $MANGO_BENCHER_BRANCH >> env.output
 echo ACCOUNTS: $ACCOUNTS >> env.output
 echo AUTHORITY_FILE: $AUTHORITY_FILE >> env.output
 echo ID_FILE: $ID_FILE >> env.output
