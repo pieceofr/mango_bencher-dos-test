@@ -88,6 +88,7 @@ cd $BUILD_DEPENDENCY_BENCHER_DIR
 #fi
 
 if  [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
+    git checkout $MANGO_BENCHER_BRANCH
 	cargo build --release
 	# cp from BUILD_DEPENDENCY_BENCHER_DIR to HOME
 	cp $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango $HOME
