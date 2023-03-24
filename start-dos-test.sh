@@ -94,7 +94,24 @@ b_block_save_f="$HOME/$HOSTNAME/BLOCK.csv"
 b_error_f="$HOME/$HOSTNAME/error.txt"
 echo $(pwd)
 echo --- start of benchmark $(date)
-ret_bench=$(./mango-simulation -u $b_cluster_ep --identity $b_auth_f --accounts $b_acct_f --mango $b_id_f --mango-cluster $b_mango_cluster --duration $b_duration -q $b_q --transaction-save-file $b_tx_save_f --block-data-save-file $b_block_save_f 2> $b_error_f &)
+
+args=(
+  -u $b_cluster_ep
+  --identity $b_auth_f
+  --accounts $b_acct_f
+  --mango $b_id_f
+  --mango-cluster $b_mango_cluster
+  --duration $b_duration
+  -q $b_q
+  --transaction-save-file $b_tx_save_f
+  --block-data-save-file $b_block_save_f
+)
+
+if [[ "$RUN_KEEPER" == "true" ]] ;then
+    args+=(--keeper-authority authority.json)
+fi
+
+ret_bench=$(./mango-simulation "${args[@]}" 2> $b_error_f &)
 tar --remove-files -czf "${b_tx_save_f}.tar.gz" ${b_tx_save_f} || true
 echo --- end of benchmark $(date)
 echo --- write down log in log-files.out ---
