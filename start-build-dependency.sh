@@ -2,7 +2,10 @@
 ## env
 set -ex
 ## Check ENV
-[[ ! "$BUILD_DEPENDENCY_BENCHER_DIR" ]]&& BUILD_DEPENDENCY_BENCHER_DIR="$HOME/mango-simulation"
+# to avoid name conflict between executable and folder
+# rename from mango-simulation to mango_simulation
+MANGO_BENCHER_FOLDER=mango_simulation
+[[ ! "$BUILD_DEPENDENCY_BENCHER_DIR" ]]&& BUILD_DEPENDENCY_BENCHER_DIR="$HOME/$MANGO_BENCHER_FOLDER"
 [[ ! "$SOLANA_BUILD_BRANCH" ]]&&[[ ! "$SOLANA_GIT_COMMIT" ]]&& echo No SOLANA_BUILD_BRANCH or SOLANA_GIT_COMMIT > env.output && exit 1
 [[ ! "$SOLANA_REPO" ]]&& echo no SOLANA_REPO=$SOLANA_REPO&& exit 1
 [[ ! "$MANGO_BENCHER_REPO" ]]&&  echo no MANGO_BENCHER_REPO=$MANGO_BENCHER_REPO&& exit 1
@@ -60,7 +63,7 @@ rustup update
 cd $HOME
 [[ -d "$BUILD_DEPENDENCY_BENCHER_DIR" ]]&& rm -rf $BUILD_DEPENDENCY_BENCHER_DIR
 # clone mango_bencher and mkdir dep dir
-git clone $MANGO_BENCHER_REPO
+git clone $MANGO_BENCHER_REPO $MANGO_BENCHER_FOLDER
 
 cd $BUILD_DEPENDENCY_BENCHER_DIR
 
