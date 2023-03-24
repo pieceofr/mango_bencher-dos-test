@@ -21,9 +21,9 @@ set -ex
 [[ ! "$SOLANA_REPO" ]]&& SOLANA_REPO=https://github.com/solana-labs/solana.git
 [[ ! "$SOLANA_BUILD_BRANCH" ]]&& SOLANA_BUILD_BRANCH=same-as-cluster && echo SOLANA_BUILD_BRANCH env not found, use $SOLANA_BUILD_BRANCH
 #[[ ! "$BUILD_SOLANA" ]]&& BUILD_SOLANA=true && echo BUILD_SOLANA env not found, use $BUILD_SOLANA
-[[ ! "$MANGO_BENCHER_REPO" ]]&& MANGO_BENCHER_REPO=https://github.com/KirillLykov/mango_bencher.git && echo MANGO_BENCHER_REPO env not found, use $MANGO_BENCHER_REPO
-[[ ! "$MANGO_BENCHER_BRANCH" ]]&& MANGO_BENCHER_BRANCH=no_solana_submod && echo MANGO_BENCHER_BRANCH env not found, use $MANGO_BENCHER_BRANCH
-[[ ! "$MANGO_CONFIGURE_REPO" ]]&& MANGO_CONFIGURE_REPO=https://github.com/godmodegalactus/configure_mango.git && echo MANGO_CONFIGURE_REPO env not found, use $MANGO_CONFIGURE_REPO
+[[ ! "$MANGO_BENCHER_REPO" ]]&& MANGO_BENCHER_REPO=https://github.com/solana-labs/mango-simulation.git && echo MANGO_BENCHER_REPO env not found, use $MANGO_BENCHER_REPO
+[[ ! "$MANGO_BENCHER_BRANCH" ]]&& MANGO_BENCHER_BRANCH=main && echo MANGO_BENCHER_BRANCH env not found, use $MANGO_BENCHER_BRANCH
+[[ ! "$MANGO_CONFIGURE_REPO" ]]&& MANGO_CONFIGURE_REPO=https://github.com/solana-labs/configure_mango.git && echo MANGO_CONFIGURE_REPO env not found, use $MANGO_CONFIGURE_REPO
 [[ ! "$MANGO_CONFIGURE_BRANCH" ]]&& MANGO_CONFIGURE_BRANCH=main && echo MANGO_CONFIGURE_BRANCH env not found, use $MANGO_CONFIGURE_BRANCH
 
 ## CI program ENVS
@@ -38,7 +38,6 @@ source utils.sh
 ## Directory settings
 dos_program_dir=$(pwd)
 BUILD_DEPENDENCY_BENCHER_DIR=/home/sol/mango_bencher
-#BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR=$BUILD_DEPENDENCY_BENCHER_DIR/deps
 BUILD_DEPENDENCY_CONFIGUERE_DIR=/home/sol/configure_mango
 
 echo ----- stage: prepare metrics env ------ 
@@ -83,7 +82,6 @@ echo ----- stage: prepare files to run the mango_bencher in the clients ---
 # setup Envs here so that generate-exec-files.sh can be used individually
 source generate-exec-dependency.sh
 accounts=( $ACCOUNTS )
-#ACCOUNT_FILE=${accounts[1]}
 #Generate first dos-test machine
 source generate-exec-dos-test.sh
 acct_num=1
