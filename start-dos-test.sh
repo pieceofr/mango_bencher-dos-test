@@ -4,7 +4,7 @@ source $HOME/dos-metrics-env.sh
 #############################
 [[ ! "$CLUSTER" ]] && echo no CLUSTER && exit 1
 [[ ! "$SOLANA_METRICS_CONFIG" ]] && echo no SOLANA_METRICS_CONFIG ENV && exit 1
-[[ ! "$BUILD_DEPENDENCY_CONFIGUERE_DIR" ]] && echo no BUILD_DEPENDENCY_CONFIGUERE_DIR ENV && exit 1
+[[ ! "$BUILD_DEPENDENCY_CONFIGURE_DIR" ]] && echo no BUILD_DEPENDENCY_CONFIGURE_DIR ENV && exit 1
 
 [[ ! "$DURATION" ]] && echo no DURATION && exit 1
 [[ ! "$QOUTES_PER_SECOND" ]] && echo no QOUTES_PER_SECOND && exit 1
@@ -61,7 +61,7 @@ fi
  ## Run Keeper.ts
 if [[ "$RUN_KEEPER" == "true" ]] ;then
 	echo --- stage: Run Keeper -----
-    cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
+    cd $BUILD_DEPENDENCY_CONFIGURE_DIR
     k_log="$HOME/$HOSTNAME/keeper.log"
     # Important artifact: keeper.log
     echo --- start to run keeper
