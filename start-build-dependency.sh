@@ -71,13 +71,13 @@ if  [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
     git checkout $MANGO_BENCHER_BRANCH
 	cargo build --release
 	# cp from BUILD_DEPENDENCY_BENCHER_DIR to HOME
-	cp $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango $HOME
-	chmod +x $HOME/solana-bench-mango
+	cp $BUILD_DEPENDENCY_BENCHER_DIR/target/release/mango-simulation $HOME
+	chmod +x $HOME/mango-simulation
 else
 	# download from bucket
 	cd $HOME
-	download_file solana-bench-mango
-	[[ ! -f "$HOME/solana-bench-mango" ]] && echo no solana-bench-mango downloaded && exit 1
+	download_file mango-simulation
+	[[ ! -f "$HOME/mango-simulation" ]] && echo no mango-simulation downloaded && exit 1
 fi
 
 # pre-requicy by configure_mango
@@ -135,4 +135,4 @@ download_file dos-metrics-env.sh
 download_file dos-report-env.sh
 [[ ! -f "$HOME/dos-report-env.sh" ]]&&echo no dos-report-env.sh file && exit 1
 
-upload_file $BUILD_DEPENDENCY_BENCHER_DIR/target/release/solana-bench-mango
+upload_file $BUILD_DEPENDENCY_BENCHER_DIR/target/release/mango-simulation

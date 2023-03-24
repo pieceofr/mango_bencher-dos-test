@@ -92,7 +92,7 @@ do
     let acct_num=$acct_num+1
 done
 
-echo ----- stage: machines and build and upload solana-bench-mango ---
+echo ----- stage: machines and build and upload mango-simulation ---
 cd $dos_program_dir
 source create-instance.sh
 create_machines $NUM_CLIENT
