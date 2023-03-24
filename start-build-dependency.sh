@@ -2,8 +2,7 @@
 ## env
 set -ex
 ## Check ENV
-[[ ! "$BUILD_DEPENDENCY_BENCHER_DIR" ]]&& BUILD_DEPENDENCY_BENCHER_DIR=$HOME/mango_bencher
-#[[ ! "$BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR" ]]&& BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR=$HOME/mango_bencher/deps
+[[ ! "$BUILD_DEPENDENCY_BENCHER_DIR" ]]&& BUILD_DEPENDENCY_BENCHER_DIR="$HOME/mango-simulation"
 [[ ! "$SOLANA_BUILD_BRANCH" ]]&&[[ ! "$SOLANA_GIT_COMMIT" ]]&& echo No SOLANA_BUILD_BRANCH or SOLANA_GIT_COMMIT > env.output && exit 1
 [[ ! "$SOLANA_REPO" ]]&& echo no SOLANA_REPO=$SOLANA_REPO&& exit 1
 [[ ! "$MANGO_BENCHER_REPO" ]]&&  echo no MANGO_BENCHER_REPO=$MANGO_BENCHER_REPO&& exit 1
@@ -59,33 +58,11 @@ rustup default stable
 rustup update
 
 cd $HOME
-[[ -d "$BUILD_DEPENDENCY_BENCHER_DIR" ]]&& rm -rf mango_bencher
+[[ -d "$BUILD_DEPENDENCY_BENCHER_DIR" ]]&& rm -rf $BUILD_DEPENDENCY_BENCHER_DIR
 # clone mango_bencher and mkdir dep dir
 git clone $MANGO_BENCHER_REPO
-#if [[ -d "$BUILD_DEPENDENCY_BENCHER_DIR" ]];then
-#    mkdir $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR
-#else
-#    exit 1
-#fi
 
 cd $BUILD_DEPENDENCY_BENCHER_DIR
-#git submodule update --init --recursive
-#if [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
-#	# build solana b4 build mango
-#	cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR
-#	git clone $SOLANA_REPO
-#	cd $BUILD_DEPENDENCY_SOLALNA_DOWNLOAD_DIR/solana
-#	if [[ "$SOLANA_GIT_COMMIT" ]];then
-#		git checkout $SOLANA_GIT_COMMIT
-#	elif [[ "$SOLANA_BUILD_BRANCH" ]];then
-#		git checkout $SOLANA_BUILD_BRANCH
-#	else 
-#		exit 1
-#	fi
-#	git branch || true
-#	# move to mango_bencher and build mango_bencher
-#	cd $BUILD_DEPENDENCY_BENCHER_DIR
-#fi
 
 if  [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
     git checkout $MANGO_BENCHER_BRANCH

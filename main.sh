@@ -37,8 +37,6 @@ set -ex
 source utils.sh
 ## Directory settings
 dos_program_dir=$(pwd)
-BUILD_DEPENDENCY_BENCHER_DIR=/home/sol/mango_bencher
-BUILD_DEPENDENCY_CONFIGUERE_DIR=/home/sol/configure_mango
 
 echo ----- stage: prepare metrics env ------ 
 [[ -f "dos-metrics-env.sh" ]]&& rm dos-metrics-env.sh
