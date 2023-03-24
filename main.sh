@@ -59,23 +59,23 @@ if [[ -d "./solana" ]];then
     rm -rf solana
 fi
 
-ret=$(git clone https://github.com/solana-labs/solana.git)
-if [[ -d solana ]];then
-    cd ./solana
-    ret=$(git checkout $SOLANA_BUILD_BRANCH)
-    SOLANA_GIT_COMMIT=$(git rev-parse HEAD)
-    cd ../
-else
-    echo "can not clone https://github.com/solana-labs/solana.git"
-    exit 1
-fi
+#ret=$(git clone https://github.com/solana-labs/solana.git)
+#if [[ -d solana ]];then
+#    cd ./solana
+#    ret=$(git checkout $SOLANA_BUILD_BRANCH)
+#    SOLANA_GIT_COMMIT=$(git rev-parse HEAD)
+#    cd ../
+#else
+#    echo "can not clone https://github.com/solana-labs/solana.git"
+#    exit 1
+#fi
 
 ##### This is for development
-if [[ $BUILD_SOLANA_DEV == "true" ]];then
+#if [[ $BUILD_SOLANA_DEV == "true" ]];then
     # currently mango_bencher git submodules and there is a version conflict 
     # for deps/solana and mango-v3. It will be resolved by migrating to cargo only
-    SOLANA_GIT_COMMIT="d98eb97842de494444bd4155e33453c59b272a56"
-fi
+#    SOLANA_GIT_COMMIT="d98eb97842de494444bd4155e33453c59b272a56"
+#fi
 echo ----- stage: prepare files to run the mango_bencher in the clients --- 
 # setup Envs here so that generate-exec-files.sh can be used individually
 source generate-exec-dependency.sh
@@ -146,9 +146,9 @@ echo "STOP_TIME2=${stop_time_adjust}" >> dos-report-env.sh
 echo "DURATION=$DURATION" >> dos-report-env.sh                 
 echo "QOUTES_PER_SECOND=$QOUTES_PER_SECOND" >> dos-report-env.sh
 echo "NUM_CLIENT=$NUM_CLIENT" >> dos-report-env.sh
-echo "GIT_COMMIT=$SOLANA_GIT_COMMIT" >> dos-report-env.sh
+#echo "GIT_COMMIT=$SOLANA_GIT_COMMIT" >> dos-report-env.sh
 echo "CLUSTER_VERSION=$testnet_ver" >> dos-report-env.sh
-echo "SOLANA_BUILD_BRANCH=$SOLANA_BUILD_BRANCH" >> dos-report-env.sh
+#echo "SOLANA_BUILD_BRANCH=$SOLANA_BUILD_BRANCH" >> dos-report-env.sh
 
 for n in "${instance_name[@]}"
 do
