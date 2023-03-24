@@ -95,9 +95,9 @@ cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
 # It is advised not to mix package managers in order to avoid resolution inconsistencies caused by unsynchronized lock files.
 # To clear this warning, remove package-lock.json.
 # Memo by author: use yarn instead of npm install
-rm package-lock.json || true
+rm -f package-lock.json
 git checkout $MANGO_CONFIGURE_BRANCH
-yarn install && yarn add @blockworks-foundation/mango-client
+yarn install
 
 echo --- stage: Start To Download Files
 cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
