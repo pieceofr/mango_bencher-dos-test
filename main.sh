@@ -18,9 +18,6 @@ set -ex
 [[ ! "$KEEPER_UPDATE_CACHE_INTERVAL" ]] && KEEPER_UPDATE_CACHE_INTERVAL=1000 && echo KEEPER_UPDATE_CACHE_INTERVAL , use $KEEPER_UPDATE_CACHE_INTERVAL
 [[ ! "$KEEPER_UPDATE_ROOT_BANK_CACHE_INTERVAL" ]] && KEEPER_UPDATE_ROOT_BANK_CACHE_INTERVAL=2000 && echo KEEPER_UPDATE_ROOT_BANK_CACHE_INTERVAL , use $KEEPER_UPDATE_ROOT_BANK_CACHE_INTERVAL
 ## solana build repo ENVS
-[[ ! "$SOLANA_REPO" ]]&& SOLANA_REPO=https://github.com/solana-labs/solana.git
-[[ ! "$SOLANA_BUILD_BRANCH" ]]&& SOLANA_BUILD_BRANCH=same-as-cluster && echo SOLANA_BUILD_BRANCH env not found, use $SOLANA_BUILD_BRANCH
-#[[ ! "$BUILD_SOLANA" ]]&& BUILD_SOLANA=true && echo BUILD_SOLANA env not found, use $BUILD_SOLANA
 [[ ! "$MANGO_BENCHER_REPO" ]]&& MANGO_BENCHER_REPO=https://github.com/solana-labs/mango-simulation.git && echo MANGO_BENCHER_REPO env not found, use $MANGO_BENCHER_REPO
 [[ ! "$MANGO_BENCHER_BRANCH" ]]&& MANGO_BENCHER_BRANCH=main && echo MANGO_BENCHER_BRANCH env not found, use $MANGO_BENCHER_BRANCH
 [[ ! "$MANGO_CONFIGURE_REPO" ]]&& MANGO_CONFIGURE_REPO=https://github.com/solana-labs/configure_mango.git && echo MANGO_CONFIGURE_REPO env not found, use $MANGO_CONFIGURE_REPO
@@ -54,30 +51,7 @@ ls -al id_ed25519_dos_test
 
 echo ----- stage: get cluster version and git information for buildkite-agent --- 
 get_testnet_ver
-if [[ "$SOLANA_BUILD_BRANCH" == "same-as-cluster" ]];then
-    SOLANA_BUILD_BRANCH=$testnet_ver
-fi
-if [[ -d "./solana" ]];then
-    rm -rf solana
-fi
 
-ret=$(git clone https://github.com/solana-labs/solana.git)
-if [[ -d solana ]];then
-    cd ./solana
-    ret=$(git checkout $SOLANA_BUILD_BRANCH)
-    SOLANA_GIT_COMMIT=$(git rev-parse HEAD)
-    cd ../
-else
-    echo "can not clone https://github.com/solana-labs/solana.git"
-    exit 1
-fi
-
-##### This is for development
-if [[ $BUILD_SOLANA_DEV == "true" ]];then
-    # currently mango_bencher git submodules and there is a version conflict 
-    # for deps/solana and mango-v3. It will be resolved by migrating to cargo only
-    SOLANA_GIT_COMMIT="d98eb97842de494444bd4155e33453c59b272a56"
-fi
 echo ----- stage: prepare files to run the mango_bencher in the clients --- 
 # setup Envs here so that generate-exec-files.sh can be used individually
 source generate-exec-dependency.sh
@@ -148,9 +122,7 @@ echo "STOP_TIME2=${stop_time_adjust}" >> dos-report-env.sh
 echo "DURATION=$DURATION" >> dos-report-env.sh                 
 echo "QOUTES_PER_SECOND=$QOUTES_PER_SECOND" >> dos-report-env.sh
 echo "NUM_CLIENT=$NUM_CLIENT" >> dos-report-env.sh
-echo "GIT_COMMIT=$SOLANA_GIT_COMMIT" >> dos-report-env.sh
 echo "CLUSTER_VERSION=$testnet_ver" >> dos-report-env.sh
-echo "SOLANA_BUILD_BRANCH=$SOLANA_BUILD_BRANCH" >> dos-report-env.sh
 
 for n in "${instance_name[@]}"
 do

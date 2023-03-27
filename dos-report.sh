@@ -14,9 +14,7 @@ source dos-report-env.sh
 [[ ! $DURATION ]]&&	echo DURATION env not found &&exit 1
 [[ ! $QOUTES_PER_SECOND ]]&&echo QOUTES_PER_SECOND env not found exit 1
 [[ ! $NUM_CLIENT ]]&&	echo NUM_CLIENT env not found, use $NUM_CLIENT&&exit 1
-[[ ! $GIT_COMMIT ]]&&	echo GIT_COMMIT env not found, use $GIT_COMMIT&&exit 1
 [[ ! $CLUSTER_VERSION ]]&&	echo CLUSTER_VERSION env not found, use $CLUSTER_VERSION&&exit 1
-[[ ! $SOLANA_BUILD_BRANCH ]]&&	echo SOLANA_BUILD_BRANCH env not found, use $SOLANA_BUILD_BRANCH&&exit 1
 [[ ! $INFLUX_TOKEN ]]&& echo INFLUX_TOKEN env not found&&exit 1
 [[ ! $INFLUX_HOST ]]&& echo INFLUX_HOST env not found, use $INFLUX_HOST&&exit 1
 
@@ -28,7 +26,6 @@ else
 fi
 
 ## Configuration
-git_commit=$GIT_COMMIT
 cluster_version=$CLUSTER_VERSION
 num_clients=$NUM_CLIENT
 duration=$DURATION
