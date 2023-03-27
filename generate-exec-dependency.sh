@@ -13,9 +13,6 @@ echo ----- stage: create exec-start-build-dependency-build.sh ------
 cat exec-start-template.sh > exec-start-build-dependency-build.sh
 echo "export CHANNEL=$CHANNEL" >> exec-start-build-dependency-build.sh
 echo "export BUILD_MANGO_BENCHER=true" >> exec-start-build-dependency-build.sh
-echo "export SOLANA_BUILD_BRANCH=$SOLANA_BUILD_BRANCH" >> exec-start-build-dependency-build.sh
-echo "export SOLANA_GIT_COMMIT=$SOLANA_GIT_COMMIT" >> exec-start-build-dependency-build.sh
-echo "export SOLANA_REPO=$SOLANA_REPO" >> exec-start-build-dependency-build.sh
 echo "export MANGO_BENCHER_REPO=$MANGO_BENCHER_REPO" >> exec-start-build-dependency-build.sh
 echo "export MANGO_BENCHER_BRANCH=$MANGO_BENCHER_BRANCH" >> exec-start-build-dependency-build.sh
 echo "export MANGO_CONFIGURE_REPO=$MANGO_CONFIGURE_REPO" >> exec-start-build-dependency-build.sh
@@ -35,9 +32,6 @@ echo ----- stage: create exec-start-build-dependency-download.sh ------
 cat exec-start-template.sh > exec-start-build-dependency-download.sh
 echo "export CHANNEL=$CHANNEL" >> exec-start-build-dependency-download.sh
 echo "export BUILD_MANGO_BENCHER=true" >> exec-start-build-dependency-download.sh
-echo "export SOLANA_BUILD_BRANCH=$SOLANA_BUILD_BRANCH" >> exec-start-build-dependency-download.sh
-echo "export SOLANA_GIT_COMMIT=$SOLANA_GIT_COMMIT" >> exec-start-build-dependency-download.sh
-echo "export SOLANA_REPO=$SOLANA_REPO" >> exec-start-build-dependency-download.sh
 echo "export MANGO_BENCHER_REPO=$MANGO_BENCHER_REPO" >> exec-start-build-dependency-download.sh
 echo "export MANGO_BENCHER_BRANCH=$MANGO_BENCHER_BRANCH" >> exec-start-build-dependency-download.sh
 echo "export MANGO_CONFIGURE_REPO=$MANGO_CONFIGURE_REPO" >> exec-start-build-dependency-download.sh
