@@ -4,7 +4,7 @@ source $HOME/dos-metrics-env.sh
 #############################
 [[ ! "$CLUSTER" ]] && echo no CLUSTER && exit 1
 [[ ! "$SOLANA_METRICS_CONFIG" ]] && echo no SOLANA_METRICS_CONFIG ENV && exit 1
-[[ ! "$BUILD_DEPENDENCY_CONFIGUERE_DIR" ]] && echo no BUILD_DEPENDENCY_CONFIGUERE_DIR ENV && exit 1
+[[ ! "$BUILD_DEPENDENCY_CONFIGURE_DIR" ]] && echo no BUILD_DEPENDENCY_CONFIGURE_DIR ENV && exit 1
 
 [[ ! "$DURATION" ]] && echo no DURATION && exit 1
 [[ ! "$QOUTES_PER_SECOND" ]] && echo no QOUTES_PER_SECOND && exit 1
@@ -61,7 +61,7 @@ fi
  ## Run Keeper.ts
 if [[ "$RUN_KEEPER" == "true" ]] ;then
 	echo --- stage: Run Keeper -----
-    cd $BUILD_DEPENDENCY_CONFIGUERE_DIR
+    cd $BUILD_DEPENDENCY_CONFIGURE_DIR
     k_log="$HOME/$HOSTNAME/keeper.log"
     # Important artifact: keeper.log
     echo --- start to run keeper
@@ -94,7 +94,7 @@ b_block_save_f="$HOME/$HOSTNAME/BLOCK.csv"
 b_error_f="$HOME/$HOSTNAME/error.txt"
 echo $(pwd)
 echo --- start of benchmark $(date)
-ret_bench=$(./solana-bench-mango -u $b_cluster_ep --identity $b_auth_f --accounts $b_acct_f --mango $b_id_f --mango-cluster $b_mango_cluster --duration $b_duration -q $b_q --transaction-save-file $b_tx_save_f --block-data-save-file $b_block_save_f 2> $b_error_f &)
+ret_bench=$(./mango-simulation -u $b_cluster_ep --identity $b_auth_f --accounts $b_acct_f --mango $b_id_f --mango-cluster $b_mango_cluster --duration $b_duration -q $b_q --transaction-save-file $b_tx_save_f --block-data-save-file $b_block_save_f 2> $b_error_f &)
 tar --remove-files -czf "${b_tx_save_f}.tar.gz" ${b_tx_save_f} || true
 echo --- end of benchmark $(date)
 echo --- write down log in log-files.out ---
@@ -103,7 +103,7 @@ echo $b_block_save_f >> $HOME/log-files.out
 echo $b_error_f >> $HOME/log-files.out
 echo $k_log >> $HOME/log-files.out
 
-## solana-bench-mango -- -u ${NET_OR_IP} --identity ../configure_mango/authority.json 
+## mango-simulation -- -u ${NET_OR_IP} --identity ../configure_mango/authority.json 
 ## --accounts ../configure_mango/accounts-20.json  --mango ../configure_mango/ids.json 
 ## --mango-cluster ${IP_OF_MANGO_CLIENT} --duration 60 -q 128 --transaction-save-file tlog.csv 
 ## --block_data_save_file blog.csv  2> err.txt &
