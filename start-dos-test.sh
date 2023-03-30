@@ -49,15 +49,22 @@ download_file() {
 }
 
 ## Prepare Metrics Env
-[[ ! -d "$HOME/solana" ]]&& echo no solana && exit 1
-cd $HOME/solana/scripts
+cd /home/sol/
+download_file configure-metrics.sh
+if [[ ! -f "configure-metrics.sh" ]];then
+	echo "NO configure-metrics.sh found" && exit 1
+fi
+chmod +x configure-metrics.sh
 ret_config_metric=$(exec ./configure-metrics.sh || true )
+echo ret_config_metric=$ret_config_metric
 
 ## Prepare Log Directory
 if [[ ! -d "$HOME/$HOSTNAME" ]];then
 	mkdir $HOME/$HOSTNAME
 fi
-
+if [[ ! -d "$HOME/$HOSTNAME" ]];then
+	echo "NO $HOME/$HOSTNAME found" && exit 1
+fi
  ## Run Keeper.ts
 if [[ "$RUN_KEEPER" == "true" ]] ;then
 	echo --- stage: Run Keeper -----
