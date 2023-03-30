@@ -103,13 +103,13 @@ echo $(pwd)
 echo --- start of benchmark $(date)
 
 args=(
-  -u $b_cluster_ep
+  --url $b_cluster_ep
   --identity $b_auth_f
   --accounts $b_acct_f
   --mango $b_id_f
   --mango-cluster $b_mango_cluster
   --duration $b_duration
-  -q $b_q
+  --quotes-per-second $b_q
   --transaction-save-file $b_tx_save_f
   --block-data-save-file $b_block_save_f
   --markets-per-mm 5
