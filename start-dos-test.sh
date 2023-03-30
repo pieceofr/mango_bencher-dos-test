@@ -112,6 +112,7 @@ args=(
   -q $b_q
   --transaction-save-file $b_tx_save_f
   --block-data-save-file $b_block_save_f
+  --markets-per-mm 5
 )
 
 if [[ "$RUN_KEEPER" == "true" ]] ;then
