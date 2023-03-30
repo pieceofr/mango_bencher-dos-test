@@ -65,15 +65,6 @@ fi
 if [[ ! -d "$HOME/$HOSTNAME" ]];then
 	echo "NO $HOME/$HOSTNAME found" && exit 1
 fi
- ## Run Keeper.ts
-if [[ "$RUN_KEEPER" == "true" ]] ;then
-	echo --- stage: Run Keeper -----
-    cd $BUILD_DEPENDENCY_CONFIGURE_DIR
-    k_log="$HOME/$HOSTNAME/keeper.log"
-    # Important artifact: keeper.log
-    echo --- start to run keeper
-    ret_keeper=$(yarn ts-node keeper.ts > $k_log 2> 1 &)
-fi
 
 sleep 10
 
@@ -126,7 +117,6 @@ echo --- write down log in log-files.out ---
 echo "${b_tx_save_f}.tar.gz" > $HOME/log-files.out
 echo $b_block_save_f >> $HOME/log-files.out
 echo $b_error_f >> $HOME/log-files.out
-echo $k_log >> $HOME/log-files.out
 
 ## mango-simulation -- -u ${NET_OR_IP} --identity ../configure_mango/authority.json 
 ## --accounts ../configure_mango/accounts-20.json  --mango ../configure_mango/ids.json 
