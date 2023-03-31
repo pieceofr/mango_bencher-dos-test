@@ -28,6 +28,7 @@ echo ID_FILE: $ID_FILE >> env.output
 echo CHANNEL: $CHANNEL >> env.output
 echo RUST_VER: $RUST_VER >> env.output
 
+
 ## Download key files from gsutil
 download_file() {
 	for retry in 0 1
@@ -126,6 +127,9 @@ do
 done
 
 cd $HOME 
+download_file configure-metrics.sh
+[[ ! -f "$HOME/configure-metrics.sh" ]]&&echo no configure-metrics.sh file && exit 1
+chmod +x configure-metrics.sh
 download_file dos-metrics-env.sh
 [[ ! -f "$HOME/dos-metrics-env.sh" ]]&&echo no dos-metrics-env.sh file && exit 1
 download_file dos-report-env.sh
