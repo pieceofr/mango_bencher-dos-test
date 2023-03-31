@@ -4,7 +4,7 @@ declare -a instance_ip
 declare -a instance_name
 declare -a instance_zone
 create_interval=60
-[[ ! "$GC_IMAGE" ]] && GC_IMAGE=mongo-bencher-dos-03302023 && echo GC_IMAGE env not found, use $GC_IMAGE
+[[ ! "$GC_IMAGE" ]] && GC_IMAGE=mango-bencher-dos-230331 && echo GC_IMAGE env not found, use $GC_IMAGE
 if [[ ! "$AVAILABLE_ZONE" ]];then
 	available_zone=( us-west2-b asia-east1-b asia-northeast1-a )
 else
@@ -12,7 +12,7 @@ else
 fi
 
 function create_gce() {
-	local vm_name=mongo-bencher-tester-`date +%y%m%d-%H-%M-%S`
+	local vm_name=mango-bencher-tester-`date +%y%m%d-%H-%M-%S`
 	local project=principal-lane-200702
 	local img_name=$GC_IMAGE
 	local machine_type=n1-standard-32
