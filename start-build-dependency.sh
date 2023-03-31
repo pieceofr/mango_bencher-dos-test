@@ -70,6 +70,7 @@ if  [[ "$BUILD_MANGO_BENCHER" == "true" ]];then
 	# cp from BUILD_DEPENDENCY_BENCHER_DIR to HOME
 	cp $BUILD_DEPENDENCY_BENCHER_DIR/target/release/mango-simulation $HOME
 	chmod +x $HOME/mango-simulation
+	upload_file $HOME/mango-simulation
 else
 	# download from bucket
 	cd $HOME
@@ -134,5 +135,3 @@ download_file dos-metrics-env.sh
 [[ ! -f "$HOME/dos-metrics-env.sh" ]]&&echo no dos-metrics-env.sh file && exit 1
 download_file dos-report-env.sh
 [[ ! -f "$HOME/dos-report-env.sh" ]]&&echo no dos-report-env.sh file && exit 1
-
-upload_file $BUILD_DEPENDENCY_BENCHER_DIR/target/release/mango-simulation
