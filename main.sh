@@ -3,6 +3,7 @@
 set -ex
 # Check ENVS
 ## mango_bench setup ENVS
+[[ ! "$RUST_LOG" ]]&& RUST_LOG=info && echo RUST_LOG env not found, use $RUST_LOG
 [[ ! "$ENDPOINT" ]]&& echo ENDPOINT env not found && exit 1
 [[ ! "$DURATION" ]]&& echo DURATION env not found && exit 1
 [[ ! "$QOUTES_PER_SECOND" ]]&& echo ENDPOINT env not found && exit 1
@@ -22,6 +23,7 @@ set -ex
 [[ ! "$MANGO_BENCHER_BRANCH" ]]&& MANGO_BENCHER_BRANCH=main && echo MANGO_BENCHER_BRANCH env not found, use $MANGO_BENCHER_BRANCH
 [[ ! "$MANGO_CONFIGURE_REPO" ]]&& MANGO_CONFIGURE_REPO=https://github.com/solana-labs/configure_mango.git && echo MANGO_CONFIGURE_REPO env not found, use $MANGO_CONFIGURE_REPO
 [[ ! "$MANGO_CONFIGURE_BRANCH" ]]&& MANGO_CONFIGURE_BRANCH=main && echo MANGO_CONFIGURE_BRANCH env not found, use $MANGO_CONFIGURE_BRANCH
+
 
 ## CI program ENVS
 [[ ! "$GIT_TOKEN" ]]&& echo GIT_TOKEN env not found && exit 1

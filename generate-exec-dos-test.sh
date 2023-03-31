@@ -3,6 +3,7 @@ echo ----- stage: create exec-start-dos-test-x.sh ------
 function gen_dos_test() {
     cat exec-start-template.sh > exec-start-dos-test-$1.sh
     echo "export BUILD_DEPENDENCY_CONFIGURE_DIR=$BUILD_DEPENDENCY_CONFIGURE_DIR" >> exec-start-dos-test-$1.sh
+    echo "export RUST_LOG=$RUST_LOG" >> exec-start-dos-test-$1.sh
     echo "export ENDPOINT=$ENDPOINT" >> exec-start-dos-test-$1.sh
     echo "export DURATION=$DURATION" >> exec-start-dos-test-$1.sh
     echo "export QOUTES_PER_SECOND=$QOUTES_PER_SECOND" >> exec-start-dos-test-$1.sh

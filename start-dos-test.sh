@@ -5,7 +5,7 @@ source $HOME/dos-metrics-env.sh
 [[ ! "$CLUSTER" ]] && echo no CLUSTER && exit 1
 [[ ! "$SOLANA_METRICS_CONFIG" ]] && echo no SOLANA_METRICS_CONFIG ENV && exit 1
 [[ ! "$BUILD_DEPENDENCY_CONFIGURE_DIR" ]] && echo no BUILD_DEPENDENCY_CONFIGURE_DIR ENV && exit 1
-
+[[ ! "$RUST_LOG" ]] && export RUST_LOG=info
 [[ ! "$DURATION" ]] && echo no DURATION && exit 1
 [[ ! "$QOUTES_PER_SECOND" ]] && echo no QOUTES_PER_SECOND && exit 1
 [[ ! "$ENDPOINT" ]]&& echo "No ENDPOINT" > dos-env.out && exit 1
