@@ -136,5 +136,5 @@ download_file dos-metrics-env.sh
 download_file dos-report-env.sh
 sleep 5
 [[ ! -f "$HOME/dos-report-env.sh" ]]&&echo no dos-report-env.sh file && exit 1
-exit 0
+
 
