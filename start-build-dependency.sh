@@ -131,7 +131,9 @@ cd $HOME
 download_file configure-metrics.sh
 [[ ! -f "$HOME/configure-metrics.sh" ]]&&echo no configure-metrics.sh file && exit 1
 chmod +x configure-metrics.sh
+sleep 1
 download_file dos-metrics-env.sh
 [[ ! -f "$HOME/dos-metrics-env.sh" ]]&&echo no dos-metrics-env.sh file && exit 1
+sleep 1
 download_file dos-report-env.sh
 [[ ! -f "$HOME/dos-report-env.sh" ]]&&echo no dos-report-env.sh file && exit 1
