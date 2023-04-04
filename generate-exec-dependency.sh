@@ -22,6 +22,7 @@ echo "export BUILD_DEPENDENCY_BENCHER_DIR=$BUILD_DEPENDENCY_BENCHER_DIR" >> exec
 echo "export BUILD_DEPENDENCY_CONFIGURE_DIR=$BUILD_DEPENDENCY_CONFIGURE_DIR" >> exec-start-build-dependency-build.sh
 echo "export AUTHORITY_FILE=$AUTHORITY_FILE" >> exec-start-build-dependency-build.sh
 echo "export ID_FILE=$ID_FILE" >> exec-start-build-dependency-build.sh
+echo "export CLIENT_ID_FILE=$CLIENT_ID_FILE" >> exec-start-build-dependency-build.sh
 echo "export ACCOUNTS=\"$ACCOUNTS\"" >> exec-start-build-dependency-build.sh # Notice without double quoate mark, it won't be parse into array
 echo 'exec  ./start-build-dependency.sh > start-build-dependency.log' >> exec-start-build-dependency-build.sh # should be sequential
 chmod +x exec-start-build-dependency-build.sh
@@ -41,6 +42,7 @@ echo "export BUILD_DEPENDENCY_BENCHER_DIR=$BUILD_DEPENDENCY_BENCHER_DIR" >> exec
 echo "export BUILD_DEPENDENCY_CONFIGURE_DIR=$BUILD_DEPENDENCY_CONFIGURE_DIR" >> exec-start-build-dependency-download.sh
 echo "export AUTHORITY_FILE=$AUTHORITY_FILE" >> exec-start-build-dependency-download.sh
 echo "export ID_FILE=$ID_FILE" >> exec-start-build-dependency-download.sh
+echo "export CLIENT_ID_FILE=$CLIENT_ID_FILE" >> exec-start-build-dependency-download.sh
 echo "export ACCOUNTS=\"$ACCOUNTS\"" >> exec-start-build-dependency-download.sh # Notice without double quoate mark, it won't be parse into array
 echo 'exec  ./start-build-dependency.sh > start-build-dependency.log' >> exec-start-build-dependency-download.sh # should be sequential
 chmod +x exec-start-build-dependency-download.sh

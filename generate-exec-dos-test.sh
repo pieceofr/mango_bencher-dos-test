@@ -10,6 +10,7 @@ function gen_dos_test() {
     echo "export ACCOUNTS=\"$ACCOUNTS\"" >>exec-start-dos-test-$1.sh # Notice without double quoate mark, it won't be parse into array
     echo "export ACCOUNT_FILE=$ACCOUNT_FILE" >> exec-start-dos-test-$1.sh
     echo "export ID_FILE=$ID_FILE" >> exec-start-dos-test-$1.sh
+    echo "export CLIENT_ID_FILE=$CLIENT_ID_FILE" >> exec-start-dos-test-$1.sh
     echo "export AUTHORITY_FILE=$AUTHORITY_FILE" >> exec-start-dos-test-$1.sh
     echo "export CLUSTER=$CLUSTER" >> exec-start-dos-test-$1.sh
     echo "export RUN_KEEPER=$RUN_KEEPER" >> exec-start-dos-test-$1.sh # Run Keeper in first node but not in other nodes

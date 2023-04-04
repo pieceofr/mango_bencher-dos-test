@@ -12,6 +12,7 @@ MANGO_BENCHER_FOLDER=mango_simulation
 [[ ! "$ACCOUNTS" ]]&&  echo no ACCOUNTS=$ACCOUNTS&& exit 1
 [[ ! "$AUTHORITY_FILE" ]] &&  echo no AUTHORITY_FILE=$AUTHORITY_FILE&& exit 1
 [[ ! "$ID_FILE" ]] &&  echo no ID_FILE=$ID_FILE&& exit 1
+[[ ! "$CLIENT_ID_FILE" ]] &&  echo no CLIENT_ID_FILE=$CLIENT_ID_FILE&& exit 1
 [[ ! "$CHANNEL" ]]&& CHANNEL=stable && echo No CHANNEL , use $CHANNEL
 [[ ! "$RUST_VER" ]]&& RUST_VER=default && echo No RUST_VER use $RUST_VER 
 
@@ -25,6 +26,7 @@ echo MANGO_BENCHER_BRANCH: $MANGO_BENCHER_BRANCH >> env.output
 echo ACCOUNTS: $ACCOUNTS >> env.output
 echo AUTHORITY_FILE: $AUTHORITY_FILE >> env.output
 echo ID_FILE: $ID_FILE >> env.output
+echo CLIENT_ID_FILE: $CLIENT_ID_FILE >> env.output
 echo CHANNEL: $CHANNEL >> env.output
 echo RUST_VER: $RUST_VER >> env.output
 
@@ -103,6 +105,9 @@ cp $AUTHORITY_FILE $HOME
 download_file $ID_FILE
 [[ ! -f "$ID_FILE" ]]&&echo no $ID_FILE file && exit 1
 cp $ID_FILE $HOME
+download_file $CLIENT_ID_FILE
+[[ ! -f "$CLIENT_ID_FILE" ]]&&echo no $CLIENT_ID_FILE file && exit 1
+cp $CLIENT_ID_FILE $HOME
 
 cd $BUILD_DEPENDENCY_BENCHER_DIR
 echo $ACCOUNTS

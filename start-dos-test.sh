@@ -12,6 +12,7 @@ source $HOME/dos-metrics-env.sh
 [[ ! "$RUN_KEEPER" ]] && RUN_KEEPER="true" >> dos-env.out
 [[ ! "$AUTHORITY_FILE" ]] && echo no AUTHORITY_FILE && exit 1
 [[ ! "$ID_FILE" ]] && echo no ID_FILE && exit 1
+[[ ! "$CLIENT_ID_FILE" ]] && echo no CLIENT_ID_FILE && exit 1
 [[ ! "$ACCOUNT_FILE" ]]&&echo no ACCOUNT_FILE && exit 1
 [[ ! "$KEEPER_GROUP" ]] && echo no KEEPER_GROUP && exit 1
 [[ ! "$KEEPER_ENDPOINT" ]] && echo no KEEPER_ENDPOINT && exit 1
@@ -69,12 +70,14 @@ echo --- stage: Run Solana-bench-mango -----
 [[ ! "$AUTHORITY_FILE" ]] &&  AUTHORITY_FILE="authority.json" && echo AUTHORITY_FILE=$AUTHORITY_FILE >> dos-env.out
 [[ ! "$ACCOUNT_FILE" ]] &&  ACCOUNT_FILE="account.json" && echo ACCOUNT_FILE=$ACCOUNT_FILE >> dos-env.out
 [[ ! "$ID_FILE" ]] &&  ID_FILE="id.json" && echo ID_FILE=$ID_FILE >> dos-env.out
+[[ ! "$CLIENT_ID_FILE" ]] &&  CLIENT_ID_FILE="validator_id.json" && echo CLIENT_ID_FILE=$CLIENT_ID_FILE >> dos-env.out
 
 # benchmark exec in $HOME Directory
 cd $HOME
 b_cluster_ep=$ENDPOINT
 b_auth_f="$HOME/$AUTHORITY_FILE"
 b_acct_f="$HOME/$ACCOUNT_FILE"
+b_client_id_f="$HOME/$CLIENT_ID_FILE"
 b_id_f="$HOME/$ID_FILE"
 b_mango_cluster=$CLUSTER
 b_duration=$DURATION
@@ -87,7 +90,7 @@ echo --- start of benchmark $(date)
 
 args=(
   --url $b_cluster_ep
-  --identity $b_auth_f
+  --identity $b_client_id_f
   --accounts $b_acct_f
   --mango $b_id_f
   --mango-cluster $b_mango_cluster
@@ -99,7 +102,7 @@ args=(
 )
 
 if [[ "$RUN_KEEPER" == "true" ]] ;then
-    args+=(--keeper-authority authority.json)
+    args+=(--keeper-authority $b_auth_f)
 fi
 
 ret_bench=$(./mango-simulation "${args[@]}" 2> $b_error_f &)
