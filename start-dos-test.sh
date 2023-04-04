@@ -15,10 +15,6 @@ source $HOME/dos-metrics-env.sh
 [[ ! "$ACCOUNT_FILE" ]]&&echo no ACCOUNT_FILE && exit 1
 [[ ! "$KEEPER_GROUP" ]] && echo no KEEPER_GROUP && exit 1
 [[ ! "$KEEPER_ENDPOINT" ]] && echo no KEEPER_ENDPOINT && exit 1
-[[ ! "$KEEPER_CONSUME_EVENTS_INTERVAL" ]] && echo no KEEPER_CONSUME_EVENTS_INTERVAL && exit 1
-[[ ! "$KEEPER_CONSUME_EVENTS_LIMIT" ]] && echo no KEEPER_CONSUME_EVENTS_LIMIT && exit 1
-[[ ! "$KEEPER_UPDATE_CACHE_INTERVAL" ]] && echo no KEEPER_UPDATE_CACHE_INTERVAL && exit 1
-[[ ! "$KEEPER_UPDATE_ROOT_BANK_CACHE_INTERVAL" ]] && echo no KEEPER_UPDATE_ROOT_BANK_CACHE_INTERVAL && exit 1
 
 #### metrics env ####
 echo SOLANA_METRICS_CONFIG=\"$SOLANA_METRICS_CONFIG\" >> dos-env.out
@@ -26,10 +22,6 @@ echo SOLANA_METRICS_CONFIG=\"$SOLANA_METRICS_CONFIG\" >> dos-env.out
 export CLUSTER=$CLUSTER
 export GROUP=$KEEPER_GROUP
 export ENDPOINT_URL=$KEEPER_ENDPOINT
-export CONSUME_EVENTS_INTERVAL=$KEEPER_CONSUME_EVENTS_INTERVAL
-export CONSUME_EVENTS_LIMIT=$KEEPER_CONSUME_EVENTS_LIMIT
-export UPDATE_CACHE_INTERVAL=$KEEPER_UPDATE_CACHE_INTERVAL # def 3000
-export UPDATE_ROOT_BANK_CACHE_INTERVAL=$KEEPER_UPDATE_ROOT_BANK_CACHE_INTERVAL # def 5000
 
 
 download_file() {
@@ -65,15 +57,6 @@ fi
 if [[ ! -d "$HOME/$HOSTNAME" ]];then
 	echo "NO $HOME/$HOSTNAME found" && exit 1
 fi
- ## Run Keeper.ts
-if [[ "$RUN_KEEPER" == "true" ]] ;then
-	echo --- stage: Run Keeper -----
-    cd $BUILD_DEPENDENCY_CONFIGURE_DIR
-    k_log="$HOME/$HOSTNAME/keeper.log"
-    # Important artifact: keeper.log
-    echo --- start to run keeper
-    ret_keeper=$(yarn ts-node keeper.ts > $k_log 2> 1 &)
-fi
 
 sleep 10
 
@@ -101,14 +84,31 @@ b_block_save_f="$HOME/$HOSTNAME/BLOCK.csv"
 b_error_f="$HOME/$HOSTNAME/error.txt"
 echo $(pwd)
 echo --- start of benchmark $(date)
-ret_bench=$(./mango-simulation -u $b_cluster_ep --identity $b_auth_f --accounts $b_acct_f --mango $b_id_f --mango-cluster $b_mango_cluster --duration $b_duration -q $b_q --transaction-save-file $b_tx_save_f --block-data-save-file $b_block_save_f 2> $b_error_f &)
+
+args=(
+  --url $b_cluster_ep
+  --identity $b_auth_f
+  --accounts $b_acct_f
+  --mango $b_id_f
+  --mango-cluster $b_mango_cluster
+  --duration $b_duration
+  --quotes-per-second $b_q
+  --transaction-save-file $b_tx_save_f
+  --block-data-save-file $b_block_save_f
+  --markets-per-mm 5
+)
+
+if [[ "$RUN_KEEPER" == "true" ]] ;then
+    args+=(--keeper-authority authority.json)
+fi
+
+ret_bench=$(./mango-simulation "${args[@]}" 2> $b_error_f &)
 tar --remove-files -czf "${b_tx_save_f}.tar.gz" ${b_tx_save_f} || true
 echo --- end of benchmark $(date)
 echo --- write down log in log-files.out ---
 echo "${b_tx_save_f}.tar.gz" > $HOME/log-files.out
 echo $b_block_save_f >> $HOME/log-files.out
 echo $b_error_f >> $HOME/log-files.out
-echo $k_log >> $HOME/log-files.out
 
 ## mango-simulation -- -u ${NET_OR_IP} --identity ../configure_mango/authority.json 
 ## --accounts ../configure_mango/accounts-20.json  --mango ../configure_mango/ids.json 

@@ -15,10 +15,6 @@ function gen_dos_test() {
     echo "export RUN_KEEPER=$RUN_KEEPER" >> exec-start-dos-test-$1.sh # Run Keeper in first node but not in other nodes
     echo "export KEEPER_GROUP=$KEEPER_GROUP" >> exec-start-dos-test-$1.sh
     echo "export KEEPER_ENDPOINT=$KEEPER_ENDPOINT" >> exec-start-dos-test-$1.sh
-    echo "export KEEPER_CONSUME_EVENTS_INTERVAL=$KEEPER_CONSUME_EVENTS_INTERVAL" >> exec-start-dos-test-$1.sh
-    echo "export KEEPER_CONSUME_EVENTS_LIMIT=$KEEPER_CONSUME_EVENTS_LIMIT" >> exec-start-dos-test-$1.sh
-    echo "export KEEPER_UPDATE_CACHE_INTERVAL=$KEEPER_UPDATE_CACHE_INTERVAL" >> exec-start-dos-test-$1.sh
-    echo "export KEEPER_UPDATE_ROOT_BANK_CACHE_INTERVAL=$KEEPER_UPDATE_ROOT_BANK_CACHE_INTERVAL" >> exec-start-dos-test-$1.sh
     echo 'exec nohup ./start-dos-test.sh > start-dos-test.log 2>start-dos-test.nohup &' >> exec-start-dos-test-$1.sh
     chmod +x exec-start-dos-test-$1.sh
 }
