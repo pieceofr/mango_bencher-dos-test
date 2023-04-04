@@ -96,10 +96,14 @@ args=(
   --mango-cluster $b_mango_cluster
   --duration $b_duration
   --quotes-per-second $b_q
-  --transaction-save-file $b_tx_save_f
   --block-data-save-file $b_block_save_f
   --markets-per-mm 5
 )
+
+
+if [[ "$SAVE_TRANSACTIONS" == "true" ]] ;then
+  --transaction-save-file $b_tx_save_f
+fi
 
 if [[ "$RUN_KEEPER" == "true" ]] ;then
     args+=(--keeper-authority $b_auth_f)
