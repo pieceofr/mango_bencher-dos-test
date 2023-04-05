@@ -102,9 +102,11 @@ get_time_after $start_time 5
 start_time_adjust=$outcom_in_sec
 sleep $DURATION
 
-# Why do we need to sleep second time?
+# Why do we need to sleep so long second time?
 #sleep_time=$(echo "$DURATION+2" | bc)
-#sleep $sleep_time
+# I guess we sleep in general to get TLOG, BLOG files
+sleep_time= 200
+sleep $sleep_time
 ### Get Time Stop
 stop_time=$(echo `date -u +%s`)
 get_time_before $stop_time 5
