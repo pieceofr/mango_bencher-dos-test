@@ -98,18 +98,19 @@ args=(
   --quotes-per-second $b_q
   --block-data-save-file $b_block_save_f
   --markets-per-mm 5
+  --transaction-save-file $b_tx_save_f
 )
 
 
-if [[ "$SAVE_TRANSACTIONS" == "true" ]] ;then
-  --transaction-save-file $b_tx_save_f
-fi
+#if [[ "$SAVE_TRANSACTIONS" == "true" ]] ;then
+#  --transaction-save-file $b_tx_save_f
+#fi
 
 if [[ "$RUN_KEEPER" == "true" ]] ;then
     args+=(--keeper-authority $b_auth_f)
 fi
 
-ret_bench=$(./mango-simulation "${args[@]}" 2> $b_error_f &)
+ret_bench=$(./mango-simulation "${args[@]}" > $b_error_f 2>&1 &)
 tar --remove-files -czf "${b_tx_save_f}.tar.gz" ${b_tx_save_f} || true
 echo --- end of benchmark $(date)
 echo --- write down log in log-files.out ---

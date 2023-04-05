@@ -102,8 +102,9 @@ get_time_after $start_time 5
 start_time_adjust=$outcom_in_sec
 sleep $DURATION
 
-sleep_time=$(echo "$DURATION+2" | bc)
-sleep $sleep_time
+# Why do we need to sleep second time?
+#sleep_time=$(echo "$DURATION+2" | bc)
+#sleep $sleep_time
 ### Get Time Stop
 stop_time=$(echo `date -u +%s`)
 get_time_before $stop_time 5
