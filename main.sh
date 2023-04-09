@@ -105,7 +105,7 @@ sleep $DURATION
 # Why do we need to sleep so long second time?
 #sleep_time=$(echo "$DURATION+2" | bc)
 # I guess we sleep in general to get TLOG, BLOG files
-sleep_time= 200
+sleep_time=200
 sleep $sleep_time
 ### Get Time Stop
 stop_time=$(echo `date -u +%s`)
