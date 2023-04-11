@@ -79,6 +79,7 @@ do
     else
         ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-build-dependency-download.sh)
     fi
+    let client_num=$client_num+1
 done
 
 
@@ -86,7 +87,7 @@ echo ----- stage: run dos test ---
 client_num=1
 for sship in "${instance_ip[@]}"
 do
-    ret_pre_build=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-dos-test-$client_num.sh)
+    ret_run_dos=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@$sship 'bash -s' < exec-start-dos-test-$client_num.sh)
     let client_num=$client_num+1
     if [[ $client_num -gt ${#accounts[@]} ]];then
         client_num=1
