@@ -138,7 +138,7 @@ if [[ "$PRINT_LOG" == "true" ]];then
 	ret_log=$(ssh -i id_ed25519_dos_test -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" sol@${instance_ip[0]} 'cat /home/sol/start-dos-test.nohup')
 fi
 echo ----- stage: upload logs ------
-sleep 300 #delay for log to be ready
+sleep 600 #delay for log to be ready
 source generate-exec-upload-logs.sh
 for sship in "${instance_ip[@]}"
 do
