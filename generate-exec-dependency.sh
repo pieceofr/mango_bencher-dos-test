@@ -8,7 +8,7 @@ echo 'cp ~/mango_bencher-dos-test/start-dos-test.sh .' >> exec-start-template.sh
 
 
 echo ----- stage: create exec-start-build-dependency-build.sh ------
-# the only difference is $BUILD_MANGO_BENCHER
+# the only difference is $DOWNLOAD_MANGO_BENCHER
 [[ ! "$CHANNEL" ]]&& CHANNEL=edge
 cat exec-start-template.sh > exec-start-build-dependency-build.sh
 echo "export CHANNEL=$CHANNEL" >> exec-start-build-dependency-build.sh
@@ -27,11 +27,11 @@ echo 'exec  ./start-build-dependency.sh > start-build-dependency.log' >> exec-st
 chmod +x exec-start-build-dependency-build.sh
 
 echo ----- stage: create exec-start-build-dependency-download.sh ------
-# the only difference is $BUILD_MANGO_BENCHER
+# the only difference is $DOWNLOAD_MANGO_BENCHER
 [[ ! "$CHANNEL" ]]&& CHANNEL=edge
 cat exec-start-template.sh > exec-start-build-dependency-download.sh
 echo "export CHANNEL=$CHANNEL" >> exec-start-build-dependency-download.sh
-echo "export BUILD_MANGO_BENCHER=false" >> exec-start-build-dependency-download.sh
+echo "export BUILD_MANGO_BENCHER=true" >> exec-start-build-dependency-download.sh
 echo "export MANGO_BENCHER_REPO=$MANGO_BENCHER_REPO" >> exec-start-build-dependency-download.sh
 echo "export MANGO_BENCHER_BRANCH=$MANGO_BENCHER_BRANCH" >> exec-start-build-dependency-download.sh
 echo "export MANGO_CONFIGURE_REPO=$MANGO_CONFIGURE_REPO" >> exec-start-build-dependency-download.sh

@@ -41,8 +41,12 @@ download_file() {
 }
 
 ## Prepare Metrics Env
-cd $HOME
-
+cd /home/sol/
+download_file configure-metrics.sh
+if [[ ! -f "configure-metrics.sh" ]];then
+	echo "NO configure-metrics.sh found" && exit 1
+fi
+chmod +x configure-metrics.sh
 ret_config_metric=$(exec ./configure-metrics.sh || true )
 echo ret_config_metric=$ret_config_metric
 
