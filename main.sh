@@ -102,7 +102,8 @@ get_time_after $start_time 5
 start_time_adjust=$outcom_in_sec
 sleep $DURATION
 
-sleep_time=$(echo "$DURATION+2" | bc)
+#sleep_time=$(echo "$DURATION+2" | bc)
+sleep_time=200
 sleep $sleep_time
 ### Get Time Stop
 stop_time=$(echo `date -u +%s`)
